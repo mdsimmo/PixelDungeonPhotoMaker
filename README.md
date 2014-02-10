@@ -1,4 +1,8 @@
 PixelDungeonPhotoMaker
 ======================
 
-Taes items from Pixel dungeon and generates images ready for the wiki
+Design:
+Takes items from Pixel dungeon and generates images ready for the wiki
+
+How it works:
+It doesn't :P (yet)

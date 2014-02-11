@@ -5,13 +5,12 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.wikipedia.Wiki;
+
 import au.net.genesis.mds.assets.InfoboxBack;
 import au.net.genesis.mds.imageEditors.ItemCreator;
 
 public class PhotoMaker {
-		
-	public PhotoMaker() {
-	}
 	
 	public static void main(String[] args) {
 		ItemCreator ic = new ItemCreator();
@@ -21,6 +20,7 @@ public class PhotoMaker {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		Wiki wiki = new Wiki("pixeldungeon.wikia.com", "");
 	}
 	
 	/** 

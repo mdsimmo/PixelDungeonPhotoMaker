@@ -91,12 +91,35 @@ public class ItemCreator {
 			// gets the asset's image
 			BufferedImage itemImage = new BufferedImage(selection.width,
 					selection.height, BufferedImage.TYPE_INT_ARGB);
-			Graphics ig = itemImage.getGraphics();
-			ig.drawImage(asset, -selection.x, -selection.y, null);
+			itemImage.getGraphics().drawImage(asset, -selection.x, -selection.y, null);
+			
+			
+			// remove whitespace (lets the image can be auto centered)
+			int minx = itemImage.getWidth()/2;
+			int maxx = minx;
+			int miny = itemImage.getHeight()/2;
+			int maxy = miny;
+			for (int i = 0; i < itemImage.getWidth(); i ++) {
+				for (int j = 0; j < itemImage.getWidth(); j ++) {
+					boolean isOpaque = ((itemImage.getRGB(i, j) & 0xFF000000) != 0x00000000);
+					if (isOpaque) {
+						if (i < minx)
+							minx = i;
+						if (i > maxx)
+							maxx = i;
+						if (j < miny)
+							miny = j;
+						if (j > maxy)
+							maxy = j;
+					}
+				}
+			}
+			BufferedImage temp = new BufferedImage(maxx-minx+1, maxy-miny+1, BufferedImage.TYPE_INT_ARGB);
+			temp.getGraphics().drawImage(itemImage, -minx, -miny, null);
+			itemImage = temp;
 			
 			// modifies the items image
 			itemImage = GraphicHelper.scaleImage(itemImage, itemScale, itemScale);
-			//itemImage = GraphicHelper.dropShadow(itemImage, 16, 80, Color.BLACK);
 			itemImage = dropShadow(itemImage);
 
 			// draws the item's image onto the background
@@ -128,6 +151,7 @@ public class ItemCreator {
 	 * @return the drop shadowed image
 	 */
 	private BufferedImage dropShadow(BufferedImage image) {	
+		// Thanks to www.jhlabs.com for the shadowing tools 
 		ShadowFilter sf = new ShadowFilter(shadowRadius, 0, 0, shadowOpacity);	
 		// create extra room around the image
 		BufferedImage newImage = new BufferedImage(image.getWidth()+shadowRadius*2, image.getHeight()+shadowRadius*2, BufferedImage.TYPE_INT_ARGB);

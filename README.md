@@ -7,7 +7,7 @@ This project is to create images for the <a href="http://pixeldungeon.wikia.com"
 <h3>How it works</h3>
 A simple program would look something like this:
     
-    ItemCreator ic = new ItemCreator();
+    InfoboxCreator ic = new InfoboxCreator();
     ic.setAsset("assets/items.png")
 			.setBackground(InfoboxBack.SEWER)
 			.configureShadow(16, 1.0F)

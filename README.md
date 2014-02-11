@@ -1,8 +1,22 @@
-PixelDungeonPhotoMaker
+Pixel Dungeon Photo Maker
 ======================
 
-Design:
-Takes items from Pixel dungeon and generates images ready for the wiki
+<h3>Description</h3>
+This project is to create images for the <a href="http://pixeldungeon.wikia.com">Pixel Dungeon Wiki</a>. It currently can only create the infobox images.
 
-How it works:
-It doesn't :P (yet)
+<h3>How it works</h3>
+A simple program would look something like this:
+    
+    InfoboxCreator ic = new InfoboxCreator();
+    ic.setAsset("assets/items.png")
+			.setBackground(InfoboxBack.SEWER)
+			.configureShadow(16, 1.0F)
+			.setSelection(new Rectangle(4*16,3*16,16,16))
+			.setItemScale(12);
+	
+	// save the image
+	try {
+		ImageIO.write(ic.getImage(), "png", new File("saved.png"));
+	} catch (IOException e) {
+		e.printStackTrace();
+	}

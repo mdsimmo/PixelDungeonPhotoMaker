@@ -89,10 +89,11 @@ public class ItemCreator {
 			Graphics ig = itemImage.getGraphics();
 			ig.drawImage(asset, -selection.x, -selection.y, null);
 			
-			// scale the item by factor of itemScale
+			// modifies the items image
+			itemImage = darkerOutline(itemImage);
 			itemImage = GraphicHelper.scaleImage(itemImage, itemScale, itemScale);
 
-			// 
+			// draws the item's image onto the background
 			g.drawImage(itemImage,
 					(InfoboxBack.BACKGROUND_SIZE - itemImage.getWidth()) / 2,
 					(InfoboxBack.BACKGROUND_SIZE - itemImage.getHeight()) / 2, null);
@@ -113,5 +114,19 @@ public class ItemCreator {
 	public ItemCreator setItemScale(int scale) {
 		this.itemScale = scale;
 		return this;
+	}
+	
+	/**
+	 * Darkens the outline of the specified image <br>
+	 * (Actually, it just darkens any semi-transparent pixels)
+	 * 
+	 * @param image the image to have outline darkened
+	 * @return the darkened outline image
+	 */
+	private BufferedImage darkerOutline(BufferedImage image) {
+		// TODO darken outline should really create a drop shadow
+		image.getGraphics().drawImage(image, 0, 0, null);
+		return image;
+				
 	}
 }

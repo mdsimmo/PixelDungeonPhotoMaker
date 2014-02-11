@@ -1,5 +1,6 @@
 package au.net.genesis.mds.imageEditors;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -92,6 +93,7 @@ public class ItemCreator {
 			// modifies the items image
 			itemImage = darkerOutline(itemImage);
 			itemImage = GraphicHelper.scaleImage(itemImage, itemScale, itemScale);
+			itemImage = GraphicHelper.dropShadow(itemImage, 16, 80, Color.BLACK);
 
 			// draws the item's image onto the background
 			g.drawImage(itemImage,
@@ -123,9 +125,11 @@ public class ItemCreator {
 	 * @param image the image to have outline darkened
 	 * @return the darkened outline image
 	 */
-	private BufferedImage darkerOutline(BufferedImage image) {
+	private BufferedImage darkerOutline(BufferedImage image) {	
+		
+		
 		// TODO darken outline should really create a drop shadow
-		image.getGraphics().drawImage(image, 0, 0, null);
+		//image.getGraphics().drawImage(image, 0, 0, null);
 		return image;
 				
 	}

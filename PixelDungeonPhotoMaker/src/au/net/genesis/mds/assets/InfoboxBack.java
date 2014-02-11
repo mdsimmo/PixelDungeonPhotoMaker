@@ -14,7 +14,7 @@ public enum InfoboxBack {
 	/** 
 	 * Infobox background used for the Sewers
 	 */
-	//TODO SEWER("sewersinfobox.png"),
+	SEWER("sewersinfobox.png"),
 	/** 
 	 * Infobox background used for the Prison
 	 */

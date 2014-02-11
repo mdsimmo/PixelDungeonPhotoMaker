@@ -1,46 +1,37 @@
 package au.net.genesis.mds;
 
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
+import javax.imageio.ImageIO;
 
-public class PhotoMaker extends JFrame implements ActionListener{
+import au.net.genesis.mds.assets.InfoboxBack;
+import au.net.genesis.mds.imageEditors.ItemCreator;
 
-	private static final long serialVersionUID = 1L;
-	private JButton openButton;	
-	
+public class PhotoMaker {
+		
 	public PhotoMaker() {
-		openButton = new JButton();
-		Container c = this.getContentPane();
-		c.add(openButton);
-		openButton.addActionListener(this);
-		
 	}
 	
-	public void click() {
-		JFileChooser fc = new JFileChooser();
-		fc.showOpenDialog(this);
-		System.out.print(fc.getSelectedFile());
-	}
-
 	public static void main(String[] args) {
-		PhotoMaker photoMaker = new PhotoMaker();
-		photoMaker.setSize(new Dimension(640, 480));
-		photoMaker.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		photoMaker.setVisible(true);
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		System.out.print("Hi");
-		if (e.getSource() == openButton) {
-			click();
+		ItemCreator ic = new ItemCreator();
+		ic.setAsset(getResource("assets/items.png")).setBackground(InfoboxBack.HALLS);
+		try {
+			ImageIO.write(ic.getImage(), "png", new File(getResource("saved.png")));
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+	}
+	
+	/** 
+	 * Gets the path to the resources <br>
+	 * (mainly used so I can change where resources are stored)
+	 * @param string
+	 * @return the resource path
+	 */
+	public static String getResource(String string) {
+		return "resources/" + string;
 		
 	}
+
 }

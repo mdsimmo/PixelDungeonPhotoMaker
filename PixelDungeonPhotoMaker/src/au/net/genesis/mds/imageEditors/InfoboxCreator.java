@@ -13,7 +13,7 @@ import au.net.genesis.mds.helpers.GraphicHelper;
 
 import com.jhlabs.image.ShadowFilter;
 
-public class ItemCreator {
+public class InfoboxCreator {
 
 	private BufferedImage asset = null;
 	private Rectangle selection;
@@ -23,9 +23,9 @@ public class ItemCreator {
 	private float shadowOpacity = 0.8F;
 
 	/**
-	 * Takes an item's image and creates an image for an infobox
+	 * This class will take an asset file and generate an info box
 	 */
-	public ItemCreator() {
+	public InfoboxCreator() {
 		selection = new Rectangle(0, 0, 16, 16);
 	}
 
@@ -36,7 +36,7 @@ public class ItemCreator {
 	 *            the name of the asset file
 	 * @return this
 	 */
-	public ItemCreator setAsset(String fileName) {
+	public InfoboxCreator setAsset(String fileName) {
 		try {
 			asset = ImageIO.read(new File(fileName));
 		} catch (IOException e) {
@@ -55,7 +55,7 @@ public class ItemCreator {
 	 *            the rectangle containing only the item's image
 	 * @return this
 	 */
-	public ItemCreator setSelection(Rectangle selection) {
+	public InfoboxCreator setSelection(Rectangle selection) {
 		this.selection = selection;
 		return this;
 		// (white space stripping done in getImage())
@@ -68,7 +68,7 @@ public class ItemCreator {
 	 *            the background to use
 	 * @return this
 	 */
-	public ItemCreator setBackground(InfoboxBack background) {
+	public InfoboxCreator setBackground(InfoboxBack background) {
 		this.background = background;
 		return this;
 	}
@@ -139,7 +139,7 @@ public class ItemCreator {
 	 * @param scale the scale. To give crisp edges, only integers can be used
 	 * @return this
 	 */
-	public ItemCreator setItemScale(int scale) {
+	public InfoboxCreator setItemScale(int scale) {
 		this.itemScale = scale;
 		return this;
 	}
@@ -168,7 +168,7 @@ public class ItemCreator {
 	 * @param opacity the opacity of the drop shadow (range 0 - 1)
 	 * @return this
 	 */
- 	public ItemCreator configureShadow(int radius, float opacity) {
+ 	public InfoboxCreator configureShadow(int radius, float opacity) {
  		this.shadowRadius = radius;
  		this.shadowOpacity = opacity;
  		return this;

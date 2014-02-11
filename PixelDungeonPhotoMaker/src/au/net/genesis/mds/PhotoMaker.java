@@ -7,14 +7,14 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import au.net.genesis.mds.assets.InfoboxBack;
-import au.net.genesis.mds.imageEditors.ItemCreator;
+import au.net.genesis.mds.imageEditors.InfoboxCreator;
 
 public class PhotoMaker {
 
 	public static void main(String[] args) {
-		ItemCreator ic = new ItemCreator();
+		InfoboxCreator ic = new InfoboxCreator();
 		ic.setAsset(getResource("assets/items.png"))
-			.setBackground(InfoboxBack.HALLS)
+			.setBackground(InfoboxBack.SEWER)
 			.configureShadow(16, 1.0F)
 			.setSelection(new Rectangle(4*16,3*16,16,16))
 			.setItemScale(12);

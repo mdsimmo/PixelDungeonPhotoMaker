@@ -517,7 +517,6 @@ public class ImageMath {
 	 */
 	public static void resample(int[] source, int[] dest, int length, int offset, int stride, float[] out) {
 		int i, j;
-		float intensity;
 		float sizfac;
 		float inSegment;
 		float outSegment;

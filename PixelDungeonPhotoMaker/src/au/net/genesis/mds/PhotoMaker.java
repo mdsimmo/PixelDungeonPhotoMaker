@@ -12,8 +12,9 @@ public class PhotoMaker {
 
 	public static void main(String[] args) {
 		ItemCreator ic = new ItemCreator();
-		ic.setAsset(getResource("assets/items.png"))
-			.setBackground(InfoboxBack.HALLS);
+		ic.setAsset(getResource("assets/crab.png"))
+			.setBackground(InfoboxBack.HALLS)
+			.configureShadow(16, 1.0F);
 		try {
 			ImageIO.write(ic.getImage(), "png", new File(
 					getResource("saved.png")));

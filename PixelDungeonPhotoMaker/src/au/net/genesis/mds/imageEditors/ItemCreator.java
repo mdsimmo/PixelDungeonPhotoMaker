@@ -1,6 +1,5 @@
 package au.net.genesis.mds.imageEditors;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -12,12 +11,16 @@ import javax.imageio.ImageIO;
 import au.net.genesis.mds.assets.InfoboxBack;
 import au.net.genesis.mds.helpers.GraphicHelper;
 
+import com.jhlabs.image.ShadowFilter;
+
 public class ItemCreator {
 
 	private BufferedImage asset = null;
 	private Rectangle selection;
 	private InfoboxBack background = null;
 	private int itemScale = 10;
+	private int shadowRadius = 8;
+	private float shadowOpacity = 0.8F;
 
 	/**
 	 * Takes an item's image and creates an image for an infobox
@@ -45,7 +48,7 @@ public class ItemCreator {
 
 	/**
 	 * Sets the selection for the assets image. <br>
-	 * TODO Any white space is around the selection is automatically striped
+	 * Any white space is around the selection is automatically striped
 	 * away.
 	 * 
 	 * @param selection
@@ -55,6 +58,7 @@ public class ItemCreator {
 	public ItemCreator setSelection(Rectangle selection) {
 		this.selection = selection;
 		return this;
+		// (white space stripping done in getImage())
 	}
 
 	/**
@@ -91,9 +95,9 @@ public class ItemCreator {
 			ig.drawImage(asset, -selection.x, -selection.y, null);
 			
 			// modifies the items image
-			itemImage = darkerOutline(itemImage);
 			itemImage = GraphicHelper.scaleImage(itemImage, itemScale, itemScale);
-			itemImage = GraphicHelper.dropShadow(itemImage, 16, 80, Color.BLACK);
+			//itemImage = GraphicHelper.dropShadow(itemImage, 16, 80, Color.BLACK);
+			itemImage = dropShadow(itemImage);
 
 			// draws the item's image onto the background
 			g.drawImage(itemImage,
@@ -109,7 +113,6 @@ public class ItemCreator {
 	
 	/**
 	 * Set the factor that the item should be scaled up by. <br>
-	 * Defaults to 10
 	 * @param scale the scale. To give crisp edges, only integers can be used
 	 * @return this
 	 */
@@ -119,18 +122,31 @@ public class ItemCreator {
 	}
 	
 	/**
-	 * Darkens the outline of the specified image <br>
-	 * (Actually, it just darkens any semi-transparent pixels)
+	 * Places a drop shadow on the image
 	 * 
-	 * @param image the image to have outline darkened
-	 * @return the darkened outline image
+	 * @param image the image to have a drop shadow
+	 * @return the drop shadowed image
 	 */
-	private BufferedImage darkerOutline(BufferedImage image) {	
-		
-		
-		// TODO darken outline should really create a drop shadow
-		//image.getGraphics().drawImage(image, 0, 0, null);
-		return image;
-				
+	private BufferedImage dropShadow(BufferedImage image) {	
+		ShadowFilter sf = new ShadowFilter(shadowRadius, 0, 0, shadowOpacity);	
+		// create extra room around the image
+		BufferedImage newImage = new BufferedImage(image.getWidth()+shadowRadius*2, image.getHeight()+shadowRadius*2, BufferedImage.TYPE_INT_ARGB);
+		newImage.getGraphics().drawImage(image, shadowRadius, shadowRadius, null);
+		// I don't actually know how to use this filter :P
+		newImage = sf.filter(newImage, null);
+		return newImage;
 	}
+	
+	/**
+	 * Configures the drop shadow's properties
+	 * 
+	 * @param radius the radius of the drop shadow
+	 * @param opacity the opacity of the drop shadow (range 0 - 1)
+	 * @return this
+	 */
+ 	public ItemCreator configureShadow(int radius, float opacity) {
+ 		this.shadowRadius = radius;
+ 		this.shadowOpacity = opacity;
+ 		return this;
+ 	}
 }

@@ -1,7 +1,6 @@
 package au.net.genesis.mds.helpers;
 
 import java.awt.AlphaComposite;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
@@ -67,29 +66,4 @@ public class GraphicHelper {
 		newBuffered.getGraphics().drawImage(newImage, 0, 0, null);
 		return newBuffered;
 	}
-
-	
-	
-	
-	public static BufferedImage dropShadow(BufferedImage image, int shadowSize, double opacity, Color color) {
-		image = createShadowMask(image, shadowSize, opacity, color);
-		
-		return image;
-	}
-
-	private static BufferedImage createShadowMask(BufferedImage image, int shadowSize, double opacity, Color color) {
-		BufferedImage mask = new BufferedImage(image.getWidth(),
-				image.getHeight(), BufferedImage.TYPE_INT_ARGB);
-
-		for (int x = 0; x < image.getWidth(); x++) {
-			for (int y = 0; y < image.getHeight(); y++) {
-				int argb = image.getRGB(x, y);
-				argb = (int) ((argb >> 24 & 0xFF) * opacity) << 24
-						| color.getRGB() & 0x00FFFFFF;
-				mask.setRGB(x, y, argb);
-			}
-		}
-		return mask;
-	}
-
 }

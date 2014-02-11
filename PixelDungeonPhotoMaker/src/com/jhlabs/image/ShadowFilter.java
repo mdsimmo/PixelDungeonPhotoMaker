@@ -132,7 +132,6 @@ public class ShadowFilter extends AbstractBufferedImageOp {
 		Graphics2D g = dst.createGraphics();
 		g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, opacity ) );
 		if ( addMargins ) {
-			int radius2 = radius/2;
 			int topShadow = Math.max( 0, radius-yOffset );
 			int leftShadow = Math.max( 0, radius-xOffset );
 			g.translate( topShadow, leftShadow );

@@ -8,11 +8,11 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import au.net.genesis.mds.assets.ParticleType;
 import au.net.genesis.mds.assets.WellType;
 import au.net.genesis.mds.helpers.GraphicHelper;
 import au.net.genesis.mds.particles.Emitter;
 import au.net.genesis.mds.particles.Particle.ParticleSystem;
-import au.net.genesis.mds.particles.Particle.ParticleType;
 
 public class ParticleScene extends Thread {
 
@@ -20,30 +20,32 @@ public class ParticleScene extends Thread {
 	private Emitter emitter;
 	private boolean process = false;
 	private int width, height;
+	private String outputFile;
 
 	/**
-	 * Creates a scene with a well and an emitter
+	 * Creates an animated scene with a well and an emitter. <br>
+	 * The output will be a collection of .pngs. Output location can be changed
+	 * with setOuputFile()
 	 */
 	public ParticleScene() {
 		emitter = new Emitter();
 		// default value
-		setSceneSize(96, 96)
-			.setWellType(WellType.ALCHEMY);
+		setSceneSize(96, 96).setWellType(WellType.ALCHEMY).setOutputFile(
+				"output/save");
 	}
 
 	/**
-	 * Call this method to bake a particle scene 
+	 * Call this method to bake the particle scene
 	 */
 	public void begin() {
 		this.process = true;
 		this.start();
 	}
 
-	
 	public void finish() {
 		this.process = false;
 	}
-	
+
 	public void run() {
 
 		int loopNumber = 0;
@@ -79,8 +81,8 @@ public class ParticleScene extends Thread {
 			image = background;
 
 			try {
-				ImageIO.write(image, "png", new File("output/saved"
-						+ loopNumber + ".png"));
+				ImageIO.write(image, "png", new File(outputFile + loopNumber
+						+ ".png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -93,35 +95,42 @@ public class ParticleScene extends Thread {
 					loopNumber = 0;
 				}
 			}
-		}		
+		}
 	}
-		
+
 	public ParticleScene setWellType(WellType wellType) {
 		this.wellType = wellType;
 		return this;
 	}
-	
+
 	public ParticleScene setParticleSystem(ParticleSystem stystem) {
 		emitter.setParticleSystem(stystem);
 		return this;
 	}
-	
+
 	public ParticleScene setParticleType(ParticleType type) {
 		emitter.setParticleType(type);
 		return this;
 	}
-	
+
 	public ParticleScene setParticleFlow(int flow) {
 		emitter.setParticleFlow(flow);
 		return this;
 	}
+
 	public ParticleScene setAreaRange(int range) {
 		emitter.setAreaRange(range);
 		return this;
 	}
+
 	public ParticleScene setSceneSize(int width, int height) {
 		this.width = width;
 		this.height = height;
+		return this;
+	}
+
+	public ParticleScene setOutputFile(String file) {
+		this.outputFile = file;
 		return this;
 	}
 

@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import au.net.genesis.mds.assets.ParticleType;
 import au.net.genesis.mds.helpers.GraphicHelper;
 
 public class Particle {
@@ -24,23 +25,6 @@ public class Particle {
 
 		Class<? extends ParticleLogic> getClazz() {
 			return clazz;
-		}
-
-	}
-
-	public enum ParticleType {
-
-		PLUS("plus.png"), MARK("mark.png"), BUBBLE("bubble.png"), BUTTERFLY(
-				"butterfly.png");
-
-		private String file;
-
-		private ParticleType(String file) {
-			this.file = file;
-		}
-
-		String getFile() {
-			return "resources/" + file;
 		}
 
 	}

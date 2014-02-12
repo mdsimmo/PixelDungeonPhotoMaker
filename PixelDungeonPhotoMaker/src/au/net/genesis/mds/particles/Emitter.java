@@ -3,9 +3,9 @@ package au.net.genesis.mds.particles;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import au.net.genesis.mds.assets.ParticleType;
 import au.net.genesis.mds.helpers.MathHelper;
 import au.net.genesis.mds.particles.Particle.ParticleSystem;
-import au.net.genesis.mds.particles.Particle.ParticleType;
 
 public class Emitter {
 

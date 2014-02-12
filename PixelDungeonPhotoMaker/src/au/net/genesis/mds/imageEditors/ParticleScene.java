@@ -16,37 +16,19 @@ import au.net.genesis.mds.particles.Particle.ParticleType;
 
 public class ParticleScene extends Thread {
 
-	private WellType well;
+	private WellType wellType;
 	private Emitter emitter;
 	private boolean process = false;
 	private int width, height;
 
 	/**
 	 * Creates a scene with a well and an emitter
-	 * 
-	 * @param wellType
-	 *            The type of well
-	 * @param system
-	 *            the system for the particles
-	 * @param type
-	 *            what the particles look like
-	 * @param particleFlow
-	 *            inversely proportional to the amount of particles spawned per
-	 *            second
-	 * @param areaRange
-	 *            the spawn radius
-	 * @param width
-	 *            the width of the final image (image will scale to match)
-	 * @param height
-	 *            the height of the final image (will place whitespace above
-	 *            image if neccercary)
 	 */
-	public ParticleScene(WellType wellType, ParticleSystem system, ParticleType type,
-			int particleFlow, int areaRange, int width, int height) {
-		well = wellType;
-		emitter = new Emitter(system, type, particleFlow, areaRange);
-		this.width = width;
-		this.height = height;
+	public ParticleScene() {
+		emitter = new Emitter();
+		// default value
+		setSceneSize(96, 96)
+			.setWellType(WellType.ALCHEMY);
 	}
 
 	/**
@@ -57,10 +39,10 @@ public class ParticleScene extends Thread {
 		this.start();
 	}
 
+	
 	public void finish() {
 		this.process = false;
 	}
-
 	
 	public void run() {
 
@@ -69,7 +51,7 @@ public class ParticleScene extends Thread {
 		int frames = 100;
 		float scale;
 		while (process) {
-			BufferedImage wellImage = well.getImage();
+			BufferedImage wellImage = wellType.getImage();
 			scale = (float) width / (float) wellImage.getWidth();
 			wellImage = GraphicHelper.scaleImage(wellImage, scale, scale);
 			BufferedImage image = new BufferedImage(width, height,
@@ -111,7 +93,36 @@ public class ParticleScene extends Thread {
 					loopNumber = 0;
 				}
 			}
-		}
+		}		
+	}
+		
+	public ParticleScene setWellType(WellType wellType) {
+		this.wellType = wellType;
+		return this;
+	}
+	
+	public ParticleScene setParticleSystem(ParticleSystem stystem) {
+		emitter.setParticleSystem(stystem);
+		return this;
+	}
+	
+	public ParticleScene setParticleType(ParticleType type) {
+		emitter.setParticleType(type);
+		return this;
+	}
+	
+	public ParticleScene setParticleFlow(int flow) {
+		emitter.setParticleFlow(flow);
+		return this;
+	}
+	public ParticleScene setAreaRange(int range) {
+		emitter.setAreaRange(range);
+		return this;
+	}
+	public ParticleScene setSceneSize(int width, int height) {
+		this.width = width;
+		this.height = height;
+		return this;
 	}
 
 }

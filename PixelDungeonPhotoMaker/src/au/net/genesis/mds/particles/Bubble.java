@@ -19,6 +19,7 @@ public class Bubble extends ParticleLogic {
 	@Override
 	public void initialise() {
 		super.initialise();
+		alpha = 0;
 		yspeed = -0.5F;
 		xscale = yscale = scale;
 	}

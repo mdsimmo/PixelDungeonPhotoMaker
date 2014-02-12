@@ -7,8 +7,7 @@ public class PhotoMaker {
 	public static void main(String[] args) {
 
 		ParticleScene ps = new ParticleScene();
-		ps.setSceneSize(96, 128)
-			.set;
+		ps.setSceneSize(96, 128);
 		ps.begin();
 
 	}

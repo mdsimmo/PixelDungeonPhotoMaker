@@ -17,7 +17,7 @@ public class ParticleLogic {
 	public void update() {
 		age += 1;
 		if (age >= lifeTime) {
-			// TODO destroy me
+			alpha = 0;
 		}
 		x += xspeed;
 		y += yspeed;

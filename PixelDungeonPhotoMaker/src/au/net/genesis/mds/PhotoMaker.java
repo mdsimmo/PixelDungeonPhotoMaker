@@ -4,21 +4,27 @@ import au.net.genesis.mds.imageEditors.ParticleScene;
 
 public class PhotoMaker {
 
+	/*
+	 * TODO list:
+	 * create other infobox images
+	 * create own image drop shadow [optional] 
+	 * auto create gifs
+	 * gui version?
+	 */
+	
 	public static void main(String[] args) {
 
 		ParticleScene ps = new ParticleScene();
-		ps.setSceneSize(96, 128);
 		ps.begin();
 
 	}
 
 	/**
-	 * Gets the path to the resources <br>
-	 * (mainly used so I can change where resources are stored)
+	 * Gets the path to the resource folder
 	 * 
 	 * @param string
 	 *            the location inside the resource directory
-	 * @return the resource path
+	 * @return the resource file's path
 	 */
 	public static String getResource(String string) {
 		return "resources/" + string;

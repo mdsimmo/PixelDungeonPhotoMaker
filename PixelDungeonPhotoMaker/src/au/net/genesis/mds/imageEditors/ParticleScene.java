@@ -81,7 +81,7 @@ public class ParticleScene extends Thread {
 			image = background;
 
 			try {
-				ImageIO.write(image, "png", new File(outputFile + loopNumber
+				ImageIO.write(image, "png", new File(outputFile + correctNumDidgits(loopNumber, 5)
 						+ ".png"));
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -98,6 +98,15 @@ public class ParticleScene extends Thread {
 		}
 	}
 
+
+	private String correctNumDidgits(int number, int didgits) {
+		String formated = Integer.toString(number);
+		for (int i = formated.length(); i < didgits; i ++) {
+			formated = "0" + formated;
+		}
+		return formated;
+	}
+	
 	public ParticleScene setWellType(WellType wellType) {
 		this.wellType = wellType;
 		return this;

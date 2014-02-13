@@ -1,35 +1,44 @@
 package au.net.genesis.mds;
 
-import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.imageio.stream.FileImageOutputStream;
+import javax.imageio.stream.ImageOutputStream;
 
-import au.net.genesis.mds.assets.InfoboxBack;
-import au.net.genesis.mds.imageEditors.InfoboxCreator;
+import au.net.genesis.mds.helpers.GifSequenceWriter;
+import au.net.genesis.mds.imageEditors.ParticleScene;
 
 public class PhotoMaker {
 
 	/*
-	 * TODO list:
-	 * create own image drop shadow [optional] 
-	 * make an auto gif creator
-	 * make enemy gifs
-	 * make standard images
-	 * gui version?
+	 * TODO list: create own image drop shadow [optional] make an auto gif
+	 * creator make enemy gifs make standard images gui version?
 	 */
-	
+
 	public static void main(String[] args) {
-
-		InfoboxCreator ic = new InfoboxCreator();
-		ic.setAsset("assets/rat.png")
-			.setBackground(InfoboxBack.SEWER)
-			.setSelection(new Rectangle(16, 16))
-			.setItemScale(14);
-
+		//ParticleScene ps = new ParticleScene();
+		//ps.begin();
+		
 		try {
-			ImageIO.write(ic.getImage(), "png", new File("output2/save.png"));
+			File inputDir = new File("output/");
+			File[] inputImages = inputDir.listFiles();
+			ImageOutputStream output = new FileImageOutputStream(new File(
+					"output2/gif.gif"));
+			GifSequenceWriter writer = new GifSequenceWriter(output,
+					BufferedImage.TYPE_INT_ARGB, 5, true);
+
+			for (int i = 0; i < inputImages.length; i++) {
+				writer.writeToSequence(ImageIO.read(inputImages[i]));
+			}
+			writer.close();
+			output.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

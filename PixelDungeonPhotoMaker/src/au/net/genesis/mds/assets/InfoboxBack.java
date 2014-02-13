@@ -26,7 +26,7 @@ public enum InfoboxBack {
 	/** 
 	 * Infobox background used for the Dwarf City
 	 */
-	//TODO CITY("cityinfobox.png"),
+	CITY("cityinfobox.png"),
 	/** 
 	 * Infobox background used for the Demon Halls
 	 */

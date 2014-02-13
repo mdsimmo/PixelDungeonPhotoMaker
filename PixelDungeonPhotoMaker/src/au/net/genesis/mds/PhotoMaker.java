@@ -6,7 +6,6 @@ public class PhotoMaker {
 
 	/*
 	 * TODO list:
-	 * create other infobox background images
 	 * create own image drop shadow [optional] 
 	 * make an auto gif creator
 	 * make enemy gifs

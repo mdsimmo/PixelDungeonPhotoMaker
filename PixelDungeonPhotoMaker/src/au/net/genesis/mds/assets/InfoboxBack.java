@@ -12,15 +12,15 @@ import au.net.genesis.mds.PhotoMaker;
 public enum InfoboxBack {
 	
 	/** 
-	 * Infobox background used for the Sewers
+	 * Infobox background used for the Sewers levels
 	 */
 	SEWER("sewersinfobox.png"),
 	/** 
-	 * Infobox background used for the Prison
+	 * Infobox background used for the Prison levels
 	 */
-	//TODO PRISON("prisoninfobox.png"),
+	PRISON("prisoninfobox.png"),
 	/** 
-	 * Infobox background used for the Caves
+	 * Infobox background used for the Caves levels
 	 */
 	//TODO CAVES("cavesinfobox.png"),
 	/** 

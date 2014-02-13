@@ -19,7 +19,7 @@ public class InfoboxCreator {
 	private Rectangle selection;
 	private InfoboxBack background = null;
 	private int itemScale = 10;
-	private int shadowRadius = 8;
+	private int shadowRadius = 12;
 	private float shadowOpacity = 0.8F;
 
 	/**
@@ -100,7 +100,7 @@ public class InfoboxCreator {
 			int miny = itemImage.getHeight()/2;
 			int maxy = miny;
 			for (int i = 0; i < itemImage.getWidth(); i ++) {
-				for (int j = 0; j < itemImage.getWidth(); j ++) {
+				for (int j = 0; j < itemImage.getHeight(); j ++) {
 					boolean isOpaque = ((itemImage.getRGB(i, j) & 0xFF000000) != 0x00000000);
 					if (isOpaque) {
 						if (i < minx)

@@ -1,6 +1,13 @@
 package au.net.genesis.mds;
 
-import au.net.genesis.mds.imageEditors.ParticleScene;
+import java.awt.Rectangle;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import au.net.genesis.mds.assets.InfoboxBack;
+import au.net.genesis.mds.imageEditors.InfoboxCreator;
 
 public class PhotoMaker {
 
@@ -15,9 +22,17 @@ public class PhotoMaker {
 	
 	public static void main(String[] args) {
 
-		ParticleScene ps = new ParticleScene();
-		ps.begin();
+		InfoboxCreator ic = new InfoboxCreator();
+		ic.setAsset(getResource("assets/warlock.png"))
+			.setBackground(InfoboxBack.CITY)
+			.setSelection(new Rectangle(0,0,12,16))
+			.setItemScale(16);
 
+		try {
+			ImageIO.write(ic.getImage(), "png", new File("output2/save.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

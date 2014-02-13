@@ -52,7 +52,7 @@ public enum InfoboxBack {
 		try {
 			texture = ImageIO.read(new File(fileName));
 		} catch (IOException e) {
-			System.err.println("InfoboxBack: could not red image " + fileName);
+			System.err.println("InfoboxBack: could not read image " + fileName);
 			return false;
 		}
 		g.drawImage(texture, x, y, null);

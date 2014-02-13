@@ -22,7 +22,7 @@ public enum InfoboxBack {
 	/** 
 	 * Infobox background used for the Caves levels
 	 */
-	//TODO CAVES("cavesinfobox.png"),
+	CAVES("cavesinfobox.png"),
 	/** 
 	 * Infobox background used for the Dwarf City
 	 */

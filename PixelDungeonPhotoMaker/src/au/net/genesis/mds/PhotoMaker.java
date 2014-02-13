@@ -23,10 +23,10 @@ public class PhotoMaker {
 	public static void main(String[] args) {
 
 		InfoboxCreator ic = new InfoboxCreator();
-		ic.setAsset(getResource("assets/warlock.png"))
-			.setBackground(InfoboxBack.CITY)
-			.setSelection(new Rectangle(0,0,12,16))
-			.setItemScale(16);
+		ic.setAsset("assets/rat.png")
+			.setBackground(InfoboxBack.SEWER)
+			.setSelection(new Rectangle(16, 16))
+			.setItemScale(14);
 
 		try {
 			ImageIO.write(ic.getImage(), "png", new File("output2/save.png"));

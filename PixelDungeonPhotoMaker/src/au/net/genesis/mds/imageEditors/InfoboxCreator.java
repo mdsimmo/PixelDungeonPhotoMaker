@@ -17,7 +17,7 @@ public class InfoboxCreator {
 
 	private BufferedImage asset = null;
 	private Rectangle selection;
-	private InfoboxBack background = null;
+	private InfoboxBack background = InfoboxBack.SEWER;
 	private int itemScale = 12;
 	private int shadowRadius = 12;
 	private float shadowOpacity = 0.8F;

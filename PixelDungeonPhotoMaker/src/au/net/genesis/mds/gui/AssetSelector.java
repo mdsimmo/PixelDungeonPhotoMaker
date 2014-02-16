@@ -34,7 +34,7 @@ public class AssetSelector extends JPanel {
 				e.printStackTrace();
 			}
 			this.addMouseListener(this);
-			this.setPreferredSize(new Dimension(asset.getWidth(), asset.getHeight()));
+			this.setPreferredSize(new Dimension(drawImage.getWidth(), drawImage.getHeight()));
 		}
 		
 		@Override
@@ -42,7 +42,6 @@ public class AssetSelector extends JPanel {
 			super.paintComponent(g);
 			g.drawImage(drawImage, 0, 0, null);
 			g.drawRect((int)(xstart*scale), (int)(ystart*scale), (int)((xend-xstart)*scale), (int)((yend-ystart)*scale));
-			System.out.print("paint");
 		}
 
 		@Override
@@ -59,16 +58,16 @@ public class AssetSelector extends JPanel {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			xstart = e.getX();
-			ystart = e.getY();
+			xstart = (int) (e.getX()/scale);
+			ystart = (int) (e.getY()/scale);
 			repaint();
 			
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			xend = e.getX();
-			yend = e.getY();
+			xend = (int) (e.getX()/scale);
+			yend = (int) (e.getY()/scale);
 			listener.update();
 			repaint();
 		}
@@ -82,7 +81,9 @@ public class AssetSelector extends JPanel {
 				this.scale *= 0.5;
 			}
 			drawImage = GraphicHelper.scaleImage(asset, scale, scale);
-			repaint();			
+			this.setPreferredSize(new Dimension(drawImage.getWidth(), drawImage.getHeight()));
+			this.revalidate();
+			repaint();
 		}
 	}
 	
@@ -98,7 +99,7 @@ public class AssetSelector extends JPanel {
 	
 	public AssetSelector(SelectorListener listener) {
 		this.listener = listener;
-		scroller.setPreferredSize(new Dimension(128, 128));
+		scroller.setPreferredSize(new Dimension(256, 256));
 		scroller.setViewportView(selector);
 		this.add(scroller);
 		this.add(zoomIn);

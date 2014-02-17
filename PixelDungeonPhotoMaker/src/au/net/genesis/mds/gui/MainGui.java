@@ -1,56 +1,40 @@
 package au.net.genesis.mds.gui;
 
-import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 
-import au.net.genesis.mds.PhotoMaker;
-import au.net.genesis.mds.helpers.GraphicHelper;
-
-public class MainGui extends JFrame{
+public class MainGui extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 
-	private Container c;
+	private PreviewPanel previewPanel = new PreviewPanel();
+	private JPanel container = new JPanel();
+	private OptionsPanel optionPanel = new OptionsPanel(previewPanel);
 	
 	public MainGui() {
-		setSize(640, 480);
-		
-		c = this.getContentPane();
-		c.setLayout(new FlowLayout());
+		getContentPane().add(container);
+		container.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
+		container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
+		container.add(optionPanel);
+		container.add(new JSeparator(SwingConstants.VERTICAL));
+		container.add(previewPanel);
+		container.add(Box.createHorizontalGlue());
+		this.pack();
+	}
+
+	public void updatePreview(BufferedImage image) {
+		previewPanel.updateImage(image);
 	}
 	
-	public MainGui setContent(Gui content) {
-		c.removeAll();
-		content.setUp(this);
-		this.revalidate();
-		this.repaint();
-		return this;
-	}
-	
-	public static JButton creatButton(String text, String image) {
-		BufferedImage loadedImg = null;
-		try {
-			loadedImg = ImageIO.read(new File(PhotoMaker.getResource(image)));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		loadedImg = GraphicHelper.scaleImage(loadedImg, 0.5, 0.5);
-		ImageIcon img = new ImageIcon(loadedImg);
-		JButton button = new JButton(text, img);
-		button.setHorizontalTextPosition(JButton.CENTER);
-		button.setVerticalTextPosition(JButton.BOTTOM);
-		Font f = new Font("Arial", Font.BOLD, 15);
-		button.setFont(f);
-		return button;
+	public PreviewPanel getPreviewPanel() {
+		return previewPanel;
 	}
 
 }

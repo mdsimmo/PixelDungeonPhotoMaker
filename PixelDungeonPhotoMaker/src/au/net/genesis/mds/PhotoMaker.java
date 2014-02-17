@@ -2,11 +2,13 @@ package au.net.genesis.mds;
 
 import javax.swing.JFrame;
 
-import au.net.genesis.mds.gui.LaunchingGui;
+import org.wikipedia.Wiki;
+
 import au.net.genesis.mds.gui.MainGui;
 
-
 public class PhotoMaker {
+	
+	public static Wiki wiki;
 
 	/*
 	 * TODO list: 
@@ -18,9 +20,10 @@ public class PhotoMaker {
 	 */
 
 	public static void main(String[] args) {
+		wiki = new Wiki("pixeldungeon.wikia.com", "");
+		wiki.setUsingCompressedRequests(false);
 		
 		MainGui mainGui = new MainGui();
-		mainGui.setContent(new LaunchingGui(mainGui));
 		mainGui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainGui.setVisible(true);
 		

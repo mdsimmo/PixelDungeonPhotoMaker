@@ -1,4 +1,4 @@
-package au.net.genesis.mds.gui;
+package au.net.genesis.mds.gui.old;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;

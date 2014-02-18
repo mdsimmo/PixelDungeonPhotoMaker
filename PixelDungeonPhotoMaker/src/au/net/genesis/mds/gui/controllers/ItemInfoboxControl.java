@@ -1,8 +1,8 @@
 package au.net.genesis.mds.gui.controllers;
 
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -16,7 +16,7 @@ import au.net.genesis.mds.imageEditors.InfoboxCreator;
 public class ItemInfoboxControl implements TabControl, ActionListener, SelectorListener {
 	
 	private InfoboxCreator ic;
-	private ArrayList<PreviewPanel> previews = new ArrayList<PreviewPanel>();
+	private PreviewPanel preview;
 	private TabAssetSelector assetSelector;
 	
 	public ItemInfoboxControl() {
@@ -27,8 +27,8 @@ public class ItemInfoboxControl implements TabControl, ActionListener, SelectorL
 	}
 
 	@Override
-	public void addPreviewPanel(PreviewPanel preview) {
-		previews.add(preview);
+	public void setPreviewPanel(PreviewPanel preview) {
+		this.preview = preview;
 	}
 
 	@Override
@@ -46,8 +46,7 @@ public class ItemInfoboxControl implements TabControl, ActionListener, SelectorL
 	
 	@Override
 	public void refreshPreview() {
-		System.out.print("hi");
-		for (PreviewPanel preview : previews) {
+		if (preview != null) {
 			preview.updateImage(ic.getImage());
 		}
 	}
@@ -59,9 +58,15 @@ public class ItemInfoboxControl implements TabControl, ActionListener, SelectorL
 	}
 
 	@Override
-	public void selectionChange() {
-		ic.setSelection(assetSelector.getSelection());
+	public void selectionChange(Rectangle selection) {
+		ic.setSelection(selection);
 		refreshPreview();
+	}
+
+	@Override
+	public void assetChange(String file) {
+		ic.setAsset(file);
+		
 	}
 
 	

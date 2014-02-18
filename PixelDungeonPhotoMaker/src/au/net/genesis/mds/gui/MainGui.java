@@ -1,7 +1,5 @@
 package au.net.genesis.mds.gui;
 
-import java.awt.image.BufferedImage;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -10,6 +8,13 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
+/**
+ * Creates the gui that can be used to create images
+ * for the Pixel Dungeon Wiki. 
+ * 
+ * @author mdsimmo
+ *
+ */
 public class MainGui extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
@@ -18,6 +23,10 @@ public class MainGui extends JFrame {
 	private JPanel container = new JPanel();
 	private OptionsPanel optionPanel = new OptionsPanel(previewPanel);
 	
+	/**
+	 * Initializes the gui.
+	 * 
+	 */
 	public MainGui() {
 		getContentPane().add(container);
 		container.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
@@ -27,14 +36,6 @@ public class MainGui extends JFrame {
 		container.add(previewPanel);
 		container.add(Box.createHorizontalGlue());
 		this.pack();
-	}
-
-	public void updatePreview(BufferedImage image) {
-		previewPanel.updateImage(image);
-	}
-	
-	public PreviewPanel getPreviewPanel() {
-		return previewPanel;
 	}
 
 }

@@ -20,12 +20,33 @@ import javax.swing.JScrollPane;
 
 import au.net.genesis.mds.helpers.GraphicHelper;
 
+/**
+ * A panel that lets the user select a specific part of a specific image.
+ * 
+ * @author mdsimmo
+ *
+ */
 public class TabAssetSelector extends JPanel{
 
+	/** 
+	 * An interface used to inform the listener of any selection changes
+	 */
 	public interface SelectorListener {
-		public void selectionChange();
+		/**
+		 * Called when the selection changes
+		 * @param selection the selection being updated
+		 */
+		public void selectionChange(Rectangle selection);
+		/**
+		 * TODO Called when the selected asset changes
+		 */
+		public void assetChange(String file);
 	}
 
+	/**
+	 * The panel which the selected asset is drawn onto.
+	 *
+	 */
 	private class SelectorPanel extends JPanel implements MouseListener, ActionListener {
 		private static final long serialVersionUID = 1L;
 		private BufferedImage asset;
@@ -74,7 +95,9 @@ public class TabAssetSelector extends JPanel{
 			xend = (int) (e.getX()/scale);
 			yend = (int) (e.getY()/scale);
 			repaint();
-			updateListeners();
+			for (SelectorListener l : listeners) {
+				l.selectionChange(getSelection());
+			}
 		}
 
 		@Override
@@ -99,6 +122,10 @@ public class TabAssetSelector extends JPanel{
 	private JButton zoomIn = new JButton("+"), zoomOut = new JButton("-");
 	private ArrayList<SelectorListener> listeners = new ArrayList<TabAssetSelector.SelectorListener>();
 	
+	/**
+	 * Creates a asset selector. <br>
+	 * It allows the user to choose an image and then specify a selection of that image.
+	 */
 	public TabAssetSelector() {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		scroller.setViewportView(selector);
@@ -112,17 +139,28 @@ public class TabAssetSelector extends JPanel{
 		zoomOut.addActionListener(selector);
 	}
 	
-	public Rectangle getSelection() {
+	/**
+	 * Gets the selection that the user has specified
+	 * @return the selected area
+	 */
+	private Rectangle getSelection() {
 		return new Rectangle(selector.xstart, selector.ystart, selector.xend-selector.xstart, selector.yend-selector.ystart);
 	}
+	/**
+	 * Gets the asset that the user has specified
+	 * @return the selected asset
+	 */
+	private String getAsset() {
+		//TODO getAsset()
+		return "";
+	}
 	
+	/**
+	 * Add to the listeners that will be informed of any selection changes 
+	 * @param listener
+	 */
 	public void addSelectorListener(SelectorListener listener) {
 		this.listeners.add(listener);
-	}
-	public void updateListeners() {
-		for (SelectorListener listener : listeners) {
-			listener.selectionChange();
-		}
 	}
 
 }

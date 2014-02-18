@@ -10,6 +10,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
@@ -21,7 +22,9 @@ import au.net.genesis.mds.helpers.GraphicHelper;
 
 public class TabAssetSelector extends JPanel{
 
-	private static final long serialVersionUID = 1L;
+	public interface SelectorListener {
+		public void selectionChange();
+	}
 
 	private class SelectorPanel extends JPanel implements MouseListener, ActionListener {
 		private static final long serialVersionUID = 1L;
@@ -37,7 +40,6 @@ public class TabAssetSelector extends JPanel{
 				e.printStackTrace();
 			}
 			this.addMouseListener(this);
-			this.setPreferredSize(new Dimension(drawImage.getWidth(), drawImage.getHeight()));
 		}
 		
 		@Override
@@ -72,6 +74,7 @@ public class TabAssetSelector extends JPanel{
 			xend = (int) (e.getX()/scale);
 			yend = (int) (e.getY()/scale);
 			repaint();
+			updateListeners();
 		}
 
 		@Override
@@ -90,26 +93,36 @@ public class TabAssetSelector extends JPanel{
 		}
 	}
 	
+	private static final long serialVersionUID = 1L;
 	private JScrollPane scroller = new JScrollPane();
 	private SelectorPanel selector = new SelectorPanel(this);
 	private JButton zoomIn = new JButton("+"), zoomOut = new JButton("-");
+	private ArrayList<SelectorListener> listeners = new ArrayList<TabAssetSelector.SelectorListener>();
 	
-	public void configureTab(JPanel panel) {
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+	public TabAssetSelector() {
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		scroller.setViewportView(selector);
-		panel.add(scroller);
+		this.add(scroller);
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 		buttonPanel.add(zoomIn);
 		buttonPanel.add(zoomOut);
-		panel.add(buttonPanel);
+		this.add(buttonPanel);
 		zoomIn.addActionListener(selector);
 		zoomOut.addActionListener(selector);
 	}
 	
 	public Rectangle getSelection() {
 		return new Rectangle(selector.xstart, selector.ystart, selector.xend-selector.xstart, selector.yend-selector.ystart);
-
+	}
+	
+	public void addSelectorListener(SelectorListener listener) {
+		this.listeners.add(listener);
+	}
+	public void updateListeners() {
+		for (SelectorListener listener : listeners) {
+			listener.selectionChange();
+		}
 	}
 
 }

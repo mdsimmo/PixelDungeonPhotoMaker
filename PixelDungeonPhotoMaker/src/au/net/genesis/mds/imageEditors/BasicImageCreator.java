@@ -65,7 +65,7 @@ public class BasicImageCreator {
 			BufferedImage itemImage = new BufferedImage(selection.width,
 					selection.height, BufferedImage.TYPE_INT_ARGB);
 			itemImage.getGraphics().drawImage(asset, -selection.x, -selection.y, null);
-			/*
+			
 			BufferedImage temp;
 			// remove whitespace (lets the image can be auto centered)
 			int minx = itemImage.getWidth() / 2;
@@ -87,7 +87,7 @@ public class BasicImageCreator {
 					}
 				}
 			}
-			BufferedImage temp = new BufferedImage(maxx - minx + 1, maxy - miny
+			temp = new BufferedImage(maxx - minx + 1, maxy - miny
 					+ 1, BufferedImage.TYPE_INT_ARGB);
 			temp.getGraphics().drawImage(itemImage, -minx, -miny, null);
 			itemImage = temp;
@@ -95,19 +95,19 @@ public class BasicImageCreator {
 			
 			// sets the minimum size to be 16 x 16
 			if (itemImage.getWidth() < 16) {
-				 temp = new BufferedImage(16, itemImage.getWidth(), BufferedImage.TYPE_INT_ARGB);
+				 temp = new BufferedImage(16, itemImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
 				 temp.getGraphics().drawImage(itemImage, (16-itemImage.getWidth())/2, 0, null);
 				 itemImage = temp;
 				 temp.flush();
 			}
 			// (height min 16 too)
 			if (itemImage.getHeight() < 16) {
-				 temp = new BufferedImage(itemImage.getHeight(), 16, BufferedImage.TYPE_INT_ARGB);
+				 temp = new BufferedImage(itemImage.getWidth(), 16, BufferedImage.TYPE_INT_ARGB);
 				 temp.getGraphics().drawImage(itemImage, 0, (16-itemImage.getHeight())/2, null);
 				 itemImage = temp;
 				 temp.flush();
 			}
-			*/
+			
 			
 			// scales the items image
 			itemImage = GraphicHelper.scaleImage(itemImage, itemScale, itemScale);

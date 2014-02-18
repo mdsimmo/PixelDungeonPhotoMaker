@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -38,7 +39,7 @@ public class TabAssetSelector extends JPanel{
 		 */
 		public void selectionChange(Rectangle selection);
 		/**
-		 * TODO Called when the selected asset changes
+		 * Called when the selected asset changes
 		 */
 		public void assetChange(String file);
 	}
@@ -55,11 +56,7 @@ public class TabAssetSelector extends JPanel{
 		private float scale = 1;
 		
 		public SelectorPanel(TabAssetSelector tabAssetSelector) {
-			try {
-				drawImage = asset = ImageIO.read(new File("assets/items.png"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			updateImage();
 			this.addMouseListener(this);
 		}
 		
@@ -95,9 +92,7 @@ public class TabAssetSelector extends JPanel{
 			xend = (int) (e.getX()/scale);
 			yend = (int) (e.getY()/scale);
 			repaint();
-			for (SelectorListener l : listeners) {
-				l.selectionChange(getSelection());
-			}
+			notifySelectionChange();
 		}
 
 		@Override
@@ -108,19 +103,38 @@ public class TabAssetSelector extends JPanel{
 			if (e.getSource() == zoomOut) {
 				this.scale *= 0.5;
 			}
+			if (e.getSource() == fileButton) {
+				JFileChooser fc = new JFileChooser("assets");
+				int returnVal = fc.showOpenDialog(this);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					fileName = fc.getSelectedFile().toString();
+					updateImage();
+					notifyAssetChange();
+				}
+			}
 			drawImage = GraphicHelper.scaleImage(asset, scale, scale);
 			scroller.getVerticalScrollBar().setValue(ystart);
 			this.setPreferredSize(new Dimension(drawImage.getWidth(), drawImage.getHeight()));
 			this.revalidate();
 			repaint();
 		}
+		
+		public void updateImage() {
+			try {
+				drawImage = asset = ImageIO.read(new File(fileName));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	private static final long serialVersionUID = 1L;
 	private JScrollPane scroller = new JScrollPane();
-	private SelectorPanel selector = new SelectorPanel(this);
 	private JButton zoomIn = new JButton("+"), zoomOut = new JButton("-");
+	private JButton fileButton = new JButton("Select file");
 	private ArrayList<SelectorListener> listeners = new ArrayList<TabAssetSelector.SelectorListener>();
+	private String fileName = "assets/items.png";
+	private SelectorPanel selector = new SelectorPanel(this);
 	
 	/**
 	 * Creates a asset selector. <br>
@@ -132,9 +146,11 @@ public class TabAssetSelector extends JPanel{
 		this.add(scroller);
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+		buttonPanel.add(fileButton);
 		buttonPanel.add(zoomIn);
 		buttonPanel.add(zoomOut);
 		this.add(buttonPanel);
+		fileButton.addActionListener(selector);
 		zoomIn.addActionListener(selector);
 		zoomOut.addActionListener(selector);
 	}
@@ -146,14 +162,6 @@ public class TabAssetSelector extends JPanel{
 	private Rectangle getSelection() {
 		return new Rectangle(selector.xstart, selector.ystart, selector.xend-selector.xstart, selector.yend-selector.ystart);
 	}
-	/**
-	 * Gets the asset that the user has specified
-	 * @return the selected asset
-	 */
-	private String getAsset() {
-		//TODO getAsset()
-		return "";
-	}
 	
 	/**
 	 * Add to the listeners that will be informed of any selection changes 
@@ -162,5 +170,21 @@ public class TabAssetSelector extends JPanel{
 	public void addSelectorListener(SelectorListener listener) {
 		this.listeners.add(listener);
 	}
-
+	
+	public void setAssetFile(String file) {
+		this.fileName = file;
+		notifyAssetChange();
+		selector.updateImage();
+	}
+	private void notifyAssetChange() {
+		for (SelectorListener l : listeners) {
+			l.assetChange(fileName);
+		}
+	}
+	private void notifySelectionChange() {
+		for (SelectorListener l : listeners) {
+			l.selectionChange(getSelection());
+		}
+	}
+	
 }

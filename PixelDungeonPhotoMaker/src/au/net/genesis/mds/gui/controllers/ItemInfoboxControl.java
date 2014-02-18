@@ -3,6 +3,7 @@ package au.net.genesis.mds.gui.controllers;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -15,9 +16,9 @@ import au.net.genesis.mds.imageEditors.InfoboxCreator;
 
 public class ItemInfoboxControl implements TabControl, ActionListener, SelectorListener {
 	
-	private InfoboxCreator ic;
-	private PreviewPanel preview;
-	private TabAssetSelector assetSelector;
+	protected InfoboxCreator ic;
+	protected PreviewPanel preview;
+	protected TabAssetSelector assetSelector;
 	
 	public ItemInfoboxControl() {
 		ic = new InfoboxCreator()
@@ -66,11 +67,14 @@ public class ItemInfoboxControl implements TabControl, ActionListener, SelectorL
 	@Override
 	public void assetChange(String file) {
 		ic.setAsset(file);
+		refreshPreview();
 		
 	}
 
-	
-	
-	
+	@Override
+	public BufferedImage getImage() {
+		return ic.getImage();
+	}
+
 	
 }

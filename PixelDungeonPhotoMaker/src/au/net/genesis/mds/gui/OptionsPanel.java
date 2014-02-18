@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import au.net.genesis.mds.PhotoMaker;
+import au.net.genesis.mds.gui.controllers.BasicImagecControl;
 import au.net.genesis.mds.gui.controllers.EnemyInfoboxControl;
 import au.net.genesis.mds.gui.controllers.ItemInfoboxControl;
 import au.net.genesis.mds.gui.controllers.TabControl;
@@ -44,10 +45,12 @@ public class OptionsPanel extends JPanel implements ActionListener {
 	
 	private ItemInfoboxControl iic = new ItemInfoboxControl();
 	private EnemyInfoboxControl eic = new EnemyInfoboxControl();
+	private BasicImagecControl bic = new BasicImagecControl();
 	private TabControl currentControl = iic;
 	
 	private JButton itemButton;
 	private JButton enemyButton;
+	private JButton basicImageButton;
 	
 	private JTextField usernameBox = new JTextField(12);
 	private JTextField passwordBox = new JPasswordField(12);
@@ -61,7 +64,7 @@ public class OptionsPanel extends JPanel implements ActionListener {
 	public OptionsPanel(PreviewPanel preview) {
 		// create the tabbed area
 		tabs = new JTabbedPane();
-		tabs.setPreferredSize(new Dimension(256,256));
+		tabs.setPreferredSize(new Dimension(256,512));
 		tabs.addTab("Pic Type", picType);
 		tabs.addTab("Asset", assetSelector);
 		tabs.addTab("Options", optionPanel);
@@ -71,12 +74,15 @@ public class OptionsPanel extends JPanel implements ActionListener {
 		// create the picture controllers
 		iic.setPreviewPanel(preview);
 		eic.setPreviewPanel(preview);
+		bic.setPreviewPanel(preview);
 		
 		// create the buttons for the pic type tab
 		itemButton = createButton("Item Infobox", new File(PhotoMaker.getResource("exampleItem.png")));
 		itemButton.addActionListener(this);
 		enemyButton = createButton("Enemy Infobox", new File(PhotoMaker.getResource("exampleEnemy.png")));
 		enemyButton.addActionListener(this);
+		basicImageButton = createButton("Basic Image", new File(PhotoMaker.getResource("exampleEnemy.png")));
+		basicImageButton.addActionListener(this);
 				
 		refresh();
 	}
@@ -104,6 +110,7 @@ public class OptionsPanel extends JPanel implements ActionListener {
 		panel.setLayout(new FlowLayout());
 		panel.add(itemButton);
 		panel.add(enemyButton);
+		panel.add(basicImageButton);
 	}
 	
 	/**
@@ -169,6 +176,11 @@ public class OptionsPanel extends JPanel implements ActionListener {
 		if (e.getSource() == itemButton) {
 			// set the controller to be the item infobox
 			currentControl = iic;
+			refresh();
+			return;
+		}
+		if (e.getSource() == basicImageButton) {
+			currentControl = bic;
 			refresh();
 			return;
 		}

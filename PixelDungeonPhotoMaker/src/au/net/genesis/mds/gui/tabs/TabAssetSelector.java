@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -48,7 +49,7 @@ public class TabAssetSelector extends JPanel{
 	 * The panel which the selected asset is drawn onto.
 	 *
 	 */
-	private class SelectorPanel extends JPanel implements MouseListener, ActionListener {
+	private class SelectorPanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
 		private static final long serialVersionUID = 1L;
 		private BufferedImage asset;
 		private BufferedImage drawImage;
@@ -58,13 +59,15 @@ public class TabAssetSelector extends JPanel{
 		public SelectorPanel(TabAssetSelector tabAssetSelector) {
 			updateImage();
 			this.addMouseListener(this);
+			this.addMouseMotionListener(this);
 		}
 		
 		@Override
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			g.drawImage(drawImage, 0, 0, null);
-			g.drawRect((int)(xstart*scale), (int)(ystart*scale), (int)((xend-xstart)*scale), (int)((yend-ystart)*scale));
+			Rectangle r = getSelection();
+			g.drawRect((int)(r.x*scale), (int)(r.y*scale), (int)(r.width*scale), (int)(r.height*scale));
 		}
 
 		@Override
@@ -126,6 +129,17 @@ public class TabAssetSelector extends JPanel{
 				e.printStackTrace();
 			}
 		}
+
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			xend = (int) (e.getX()/scale);
+			yend = (int) (e.getY()/scale);
+			repaint();
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e) {	
+		}
 	}
 	
 	private static final long serialVersionUID = 1L;
@@ -160,7 +174,23 @@ public class TabAssetSelector extends JPanel{
 	 * @return the selected area
 	 */
 	private Rectangle getSelection() {
-		return new Rectangle(selector.xstart, selector.ystart, selector.xend-selector.xstart, selector.yend-selector.ystart);
+		// make sure the rectangle is from top left to bot right
+		int xstart, xend, ystart, yend;
+		if (selector.xstart > selector.xend) {
+			xstart = selector.xend;
+			xend = selector.xstart;
+		} else {
+			xstart = selector.xstart;
+			xend = selector.xend;
+		}
+		if (selector.ystart > selector.yend) {
+			ystart = selector.yend;
+			yend = selector.ystart;
+		} else {
+			ystart = selector.ystart;
+			yend = selector.yend;
+		}
+		return new Rectangle(xstart, ystart, xend-xstart, yend-ystart);
 	}
 	
 	/**

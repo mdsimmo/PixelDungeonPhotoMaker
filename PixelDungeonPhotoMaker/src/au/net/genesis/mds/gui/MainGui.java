@@ -10,7 +10,8 @@ import javax.swing.SwingConstants;
 
 /**
  * Creates the gui that can be used to create images
- * for the Pixel Dungeon Wiki. 
+ * for the Pixel Dungeon Wiki. <br>
+ * Be warned: this gui is rather hacked together but it works (mostly)
  * 
  * @author mdsimmo
  *

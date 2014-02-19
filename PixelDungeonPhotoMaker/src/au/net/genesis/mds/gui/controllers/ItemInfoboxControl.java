@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -38,7 +39,7 @@ public class ItemInfoboxControl implements TabControl, ActionListener, SelectorL
 	
 	public ItemInfoboxControl() {
 		ic = new InfoboxCreator()
-			.setAsset(AssetLoader.getDungeonPath("items.png"));
+			.setAsset(AssetLoader.getDungeonFile("items.png"));
 		assetSelector = new TabAssetSelector();
 		assetSelector.addSelectorListener(this);
 		backgroundSelect = new TabBackgroundSelect();
@@ -111,7 +112,7 @@ public class ItemInfoboxControl implements TabControl, ActionListener, SelectorL
 	}
 
 	@Override
-	public void assetChange(String file) {
+	public void assetChange(File file) {
 		ic.setAsset(file);
 		refreshPreview();
 		

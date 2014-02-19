@@ -2,6 +2,7 @@ package au.net.genesis.mds.imageEditors;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import au.net.genesis.mds.assets.AssetLoader;
 import au.net.genesis.mds.helpers.GraphicHelper;
@@ -26,7 +27,7 @@ public class BasicImageCreator {
 	 *            the name of the asset file
 	 * @return this
 	 */
-	public BasicImageCreator setAsset(String fileName) {
+	public BasicImageCreator setAsset(File fileName) {
 		asset = AssetLoader.loadImage(fileName);
 		return this;
 	}

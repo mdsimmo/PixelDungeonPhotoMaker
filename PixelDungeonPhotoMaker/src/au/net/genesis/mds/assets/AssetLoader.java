@@ -1,8 +1,8 @@
 package au.net.genesis.mds.assets;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
@@ -17,10 +17,10 @@ public class AssetLoader {
 	 *            the location inside the resource directory
 	 * @return the resource
 	 */
-	public static BufferedImage loadImage(String file) {
-		InputStream input = AssetLoader.class.getResourceAsStream(file);
+	public static BufferedImage loadImage(File file) {
+		//InputStream input = AssetLoader.class.getResourceAsStream(file);
 		try {
-			return ImageIO.read(input);
+			return ImageIO.read(file);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
@@ -29,21 +29,21 @@ public class AssetLoader {
 	
 	/**
 	 * gets the file of an image
-	 * @param image the image's file's name
-	 * @return the file of the image
+	 * @param image the file's name
+	 * @return the file
 	 */
-	public static String getImagePath(String image) {
-		return "/resources/" + image;
+	public static File getImageFile(String image) {
+		return new File("resources/" + image);
 	}
 	
 	/**
 	 * Gives the file to a game's asset
 	 * 
-	 * @param file the name of the asset
+	 * @param file the game of the asset
 	 * @return the file of the asset
 	 */
-	public static String getDungeonPath(String file) {
-		return getImagePath("gameimages/" + file);
+	public static File getDungeonFile(String file) {
+		return getImageFile("gameassets/" + file);
 	}
 
 }

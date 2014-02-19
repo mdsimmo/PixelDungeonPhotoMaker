@@ -74,11 +74,11 @@ public class OptionsPanel extends JPanel implements ActionListener {
 		bic.setPreviewPanel(preview);
 		
 		// create the buttons for the pic type tab
-		itemButton = MainGui.createButton("Item Infobox", AssetLoader.getImagePath("exampleitem.png"));
+		itemButton = MainGui.createButton("Item Infobox", AssetLoader.getImageFile("exampleitem.png"));
 		itemButton.addActionListener(this);
-		enemyButton = MainGui.createButton("Enemy Infobox",AssetLoader.getImagePath("exampleenemy.png"));
+		enemyButton = MainGui.createButton("Enemy Infobox",AssetLoader.getImageFile("exampleenemy.png"));
 		enemyButton.addActionListener(this);
-		basicImageButton = MainGui.createButton("Basic Image", AssetLoader.getImagePath("exampleenemy.png"));
+		basicImageButton = MainGui.createButton("Basic Image", AssetLoader.getImageFile("exampleenemy.png"));
 		basicImageButton.addActionListener(this);
 				
 		refresh();

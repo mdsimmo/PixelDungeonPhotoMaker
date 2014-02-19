@@ -2,6 +2,7 @@ package au.net.genesis.mds.gui.controllers;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -27,7 +28,7 @@ public class BasicImagecControl implements TabControl, SelectorListener, ChangeL
 	
 	public BasicImagecControl() {
 		bic = new BasicImageCreator()
-			.setAsset(AssetLoader.getDungeonPath("items.png"));
+			.setAsset(AssetLoader.getDungeonFile("items.png"));
 		assetSelector = new TabAssetSelector();
 		assetSelector.addSelectorListener(this);
 	}
@@ -74,7 +75,7 @@ public class BasicImagecControl implements TabControl, SelectorListener, ChangeL
 	}
 
 	@Override
-	public void assetChange(String file) {
+	public void assetChange(File file) {
 		bic.setAsset(file);
 		refreshPreview();
 		

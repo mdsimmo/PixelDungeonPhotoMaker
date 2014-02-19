@@ -3,6 +3,7 @@ package au.net.genesis.mds.imageEditors;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import au.net.genesis.mds.assets.AssetLoader;
 import au.net.genesis.mds.assets.InfoboxBack;
@@ -33,7 +34,7 @@ public class InfoboxCreator {
 	 *            the name of the asset file
 	 * @return this
 	 */
-	public InfoboxCreator setAsset(String fileName) {
+	public InfoboxCreator setAsset(File fileName) {
 		asset = AssetLoader.loadImage(fileName);
 		return this;
 	}

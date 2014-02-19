@@ -2,6 +2,7 @@ package au.net.genesis.mds.assets;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 
 public enum InfoboxBack {
@@ -28,10 +29,12 @@ public enum InfoboxBack {
 	HALLS("hallsinfobox.png");
 	
 	private BufferedImage texture;
+	private File file;
 	public static final int BACKGROUND_SIZE = 256;
 	
 	InfoboxBack(String fileName) {
-		texture = AssetLoader.loadImage(AssetLoader.getImageFile(fileName));
+		this.file = AssetLoader.getImageFile(fileName);
+		texture = AssetLoader.loadImage(file);
 	}
 	
 	/**
@@ -47,4 +50,11 @@ public enum InfoboxBack {
 		return true;
 	}
 
+	/**
+	 * gets the location where the infobox's image is stored
+	 * @return
+	 */
+	public File getImageFile() {
+		return file;
+	}
 }

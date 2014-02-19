@@ -15,17 +15,21 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import au.net.genesis.mds.assets.AssetLoader;
+import au.net.genesis.mds.assets.InfoboxBack;
 import au.net.genesis.mds.gui.PreviewPanel;
 import au.net.genesis.mds.gui.tabs.TabAssetSelector;
 import au.net.genesis.mds.gui.tabs.TabAssetSelector.SelectorListener;
+import au.net.genesis.mds.gui.tabs.TabBackgroundSelect;
+import au.net.genesis.mds.gui.tabs.TabBackgroundSelect.BackgroundListener;
 import au.net.genesis.mds.imageEditors.InfoboxCreator;
 
 
-public class ItemInfoboxControl implements TabControl, ActionListener, SelectorListener, ChangeListener {
+public class ItemInfoboxControl implements TabControl, ActionListener, SelectorListener, ChangeListener, BackgroundListener {
 	
 	protected InfoboxCreator ic;
-	protected PreviewPanel preview;
+	private PreviewPanel preview;
 	protected TabAssetSelector assetSelector;
+	private TabBackgroundSelect backgroundSelect;
 	private JSlider scaleSlider = new JSlider(1, 24, 14);
 	private JLabel scaleLabel = new JLabel(Integer.toString(scaleSlider.getValue()));
 	private JSlider shadowSlider = new JSlider(1, 32, 8);
@@ -38,6 +42,8 @@ public class ItemInfoboxControl implements TabControl, ActionListener, SelectorL
 			.setAsset(AssetLoader.getDungeonFile("items.png"));
 		assetSelector = new TabAssetSelector();
 		assetSelector.addSelectorListener(this);
+		backgroundSelect = new TabBackgroundSelect();
+		backgroundSelect.addListener(this);
 	}
 
 	@Override
@@ -79,6 +85,8 @@ public class ItemInfoboxControl implements TabControl, ActionListener, SelectorL
 		shadowOpacityPanel.add(shadowOpacitySlider);
 		shadowOpacityPanel.add(shadowOpacityLabel);
 		panel.add(shadowOpacityPanel);
+		
+		panel.add(backgroundSelect);
 		
 		panel.add(Box.createVerticalGlue());
 		
@@ -132,6 +140,12 @@ public class ItemInfoboxControl implements TabControl, ActionListener, SelectorL
 			shadowOpacityLabel.setText(Integer.toString(opacity));
 			refreshPreview();
 		}
+	}
+
+	@Override
+	public void backgroundChange(InfoboxBack back) {
+		ic.setBackground(back);
+		refreshPreview();
 	}
 
 	

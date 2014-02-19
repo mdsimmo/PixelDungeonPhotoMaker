@@ -2,17 +2,14 @@ package au.net.genesis.mds.gui;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.security.auth.login.LoginException;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -27,7 +24,6 @@ import au.net.genesis.mds.gui.controllers.BasicImagecControl;
 import au.net.genesis.mds.gui.controllers.EnemyInfoboxControl;
 import au.net.genesis.mds.gui.controllers.ItemInfoboxControl;
 import au.net.genesis.mds.gui.controllers.TabControl;
-import au.net.genesis.mds.helpers.GraphicHelper;
 
 /**
  * Creates a option panel to create Pixel Dungeon Wiki Assets
@@ -78,11 +74,11 @@ public class OptionsPanel extends JPanel implements ActionListener {
 		bic.setPreviewPanel(preview);
 		
 		// create the buttons for the pic type tab
-		itemButton = createButton("Item Infobox", AssetLoader.getImageFile("exampleitem.png"));
+		itemButton = MainGui.createButton("Item Infobox", AssetLoader.getImageFile("exampleitem.png"));
 		itemButton.addActionListener(this);
-		enemyButton = createButton("Enemy Infobox",AssetLoader.getImageFile("exampleenemy.png"));
+		enemyButton = MainGui.createButton("Enemy Infobox",AssetLoader.getImageFile("exampleenemy.png"));
 		enemyButton.addActionListener(this);
-		basicImageButton = createButton("Basic Image", AssetLoader.getImageFile("exampleenemy.png"));
+		basicImageButton = MainGui.createButton("Basic Image", AssetLoader.getImageFile("exampleenemy.png"));
 		basicImageButton.addActionListener(this);
 				
 		refresh();
@@ -143,23 +139,6 @@ public class OptionsPanel extends JPanel implements ActionListener {
 		panel.add(uploadButton);
 	}
 	
-	/**
-	 * Creates a button with text and an image
-	 * @param text The button's text
-	 * @param image The image's file
-	 * @return the created button
-	 */
-	public JButton createButton(String text, File image) {
-		BufferedImage img = AssetLoader.loadImage(image);
-		img = GraphicHelper.scaleImage(img, 0.25, 0.25);
-		ImageIcon icon = new ImageIcon(img);
-		JButton button = new JButton(text, icon);
-		button.setHorizontalTextPosition(SwingConstants.CENTER);
-		button.setVerticalTextPosition(SwingConstants.BOTTOM);
-		button.setFont(new Font("Arial", Font.PLAIN, 10));
-		return button;
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == enemyButton) {

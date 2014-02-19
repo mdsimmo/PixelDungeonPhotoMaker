@@ -2,7 +2,6 @@ package au.net.genesis.mds.gui.controllers;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.File;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -75,7 +74,7 @@ public class BasicImagecControl implements TabControl, SelectorListener, ChangeL
 	}
 
 	@Override
-	public void assetChange(File file) {
+	public void assetChange(String file) {
 		bic.setAsset(file);
 		refreshPreview();
 		

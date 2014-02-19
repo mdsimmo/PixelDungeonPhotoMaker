@@ -4,7 +4,6 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -112,7 +111,7 @@ public class ItemInfoboxControl implements TabControl, ActionListener, SelectorL
 	}
 
 	@Override
-	public void assetChange(File file) {
+	public void assetChange(String file) {
 		ic.setAsset(file);
 		refreshPreview();
 		

@@ -10,7 +10,7 @@ public enum WellType {
 	private BufferedImage texture;
 
 	WellType(String file) {
-		texture = AssetLoader.loadImage(AssetLoader.getImageFile(file));
+		texture = AssetLoader.loadImage(AssetLoader.getImagePath(file));
 	}
 
 	public void drawImage(Graphics g, int x, int y) {

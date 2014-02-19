@@ -21,11 +21,11 @@ public class TabBackgroundSelect extends JPanel implements ActionListener {
 
 	private ArrayList<BackgroundListener> listeners = new ArrayList<TabBackgroundSelect.BackgroundListener>();
 	
-	private JButton sewers = MainGui.createButton("Sewers", InfoboxBack.SEWER.getImageFile());
-	private JButton prison = MainGui.createButton("Prison", InfoboxBack.PRISON.getImageFile());
-	private JButton caves = MainGui.createButton("Caves", InfoboxBack.CAVES.getImageFile());
-	private JButton city = MainGui.createButton("Dwarf City", InfoboxBack.CITY.getImageFile());
-	private JButton halls = MainGui.createButton("Demon Halls", InfoboxBack.HALLS.getImageFile());
+	private JButton sewers = MainGui.createButton("Sewers", InfoboxBack.SEWER.getImagePath());
+	private JButton prison = MainGui.createButton("Prison", InfoboxBack.PRISON.getImagePath());
+	private JButton caves = MainGui.createButton("Caves", InfoboxBack.CAVES.getImagePath());
+	private JButton city = MainGui.createButton("Dwarf City", InfoboxBack.CITY.getImagePath());
+	private JButton halls = MainGui.createButton("Demon Halls", InfoboxBack.HALLS.getImagePath());
 	
 	public TabBackgroundSelect() {
 		this.setLayout(new FlowLayout());

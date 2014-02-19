@@ -9,7 +9,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
@@ -41,7 +40,7 @@ public class TabAssetSelector extends JPanel{
 		/**
 		 * Called when the selected asset changes
 		 */
-		public void assetChange(File file);
+		public void assetChange(String file);
 	}
 
 	/**
@@ -109,7 +108,7 @@ public class TabAssetSelector extends JPanel{
 				JFileChooser fc = new JFileChooser(file);
 				int returnVal = fc.showOpenDialog(this);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					file = fc.getSelectedFile();
+					file = fc.getSelectedFile().toString();
 					updateImage();
 					notifyAssetChange();
 				}
@@ -142,7 +141,7 @@ public class TabAssetSelector extends JPanel{
 	private JButton zoomIn = new JButton("+"), zoomOut = new JButton("-");
 	private JButton fileButton = new JButton("Select file");
 	private ArrayList<SelectorListener> listeners = new ArrayList<TabAssetSelector.SelectorListener>();
-	private File file = AssetLoader.getDungeonFile("items.png");
+	private String file = AssetLoader.getDungeonFile("items.png");
 	private SelectorPanel selector = new SelectorPanel(this);
 	
 	/**
@@ -203,7 +202,7 @@ public class TabAssetSelector extends JPanel{
 		this.listeners.add(listener);
 	}
 	
-	public void setAssetFile(File file) {
+	public void setAssetFile(String file) {
 		this.file = file;
 		notifyAssetChange();
 		selector.updateImage();

@@ -2,7 +2,6 @@ package au.net.genesis.mds.gui;
 
 import java.awt.Font;
 import java.awt.image.BufferedImage;
-import java.io.File;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -54,7 +53,7 @@ public class MainGui extends JFrame {
 	 * @param image The image's file
 	 * @return the created button
 	 */
-	public static JButton createButton(String text, File image) {
+	public static JButton createButton(String text, String image) {
 		BufferedImage img = AssetLoader.loadImage(image);
 		img = GraphicHelper.scaleImage(img, 0.25, 0.25);
 		ImageIcon icon = new ImageIcon(img);

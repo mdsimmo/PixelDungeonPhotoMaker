@@ -27,7 +27,7 @@ public class BasicImagecControl implements TabControl, SelectorListener, ChangeL
 	
 	public BasicImagecControl() {
 		bic = new BasicImageCreator()
-			.setAsset(AssetLoader.getDungeonFile("items.png"));
+			.setAsset(AssetLoader.getDungeonPath("items.png"));
 		assetSelector = new TabAssetSelector();
 		assetSelector.addSelectorListener(this);
 	}

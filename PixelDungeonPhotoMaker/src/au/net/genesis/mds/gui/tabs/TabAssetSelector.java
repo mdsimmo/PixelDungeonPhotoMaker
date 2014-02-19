@@ -141,7 +141,7 @@ public class TabAssetSelector extends JPanel{
 	private JButton zoomIn = new JButton("+"), zoomOut = new JButton("-");
 	private JButton fileButton = new JButton("Select file");
 	private ArrayList<SelectorListener> listeners = new ArrayList<TabAssetSelector.SelectorListener>();
-	private String file = AssetLoader.getDungeonFile("items.png");
+	private String file = AssetLoader.getDungeonPath("items.png");
 	private SelectorPanel selector = new SelectorPanel(this);
 	
 	/**

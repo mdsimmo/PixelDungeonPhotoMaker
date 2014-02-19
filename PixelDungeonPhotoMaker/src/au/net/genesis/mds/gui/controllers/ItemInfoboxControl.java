@@ -38,7 +38,7 @@ public class ItemInfoboxControl implements TabControl, ActionListener, SelectorL
 	
 	public ItemInfoboxControl() {
 		ic = new InfoboxCreator()
-			.setAsset(AssetLoader.getDungeonFile("items.png"));
+			.setAsset(AssetLoader.getDungeonPath("items.png"));
 		assetSelector = new TabAssetSelector();
 		assetSelector.addSelectorListener(this);
 		backgroundSelect = new TabBackgroundSelect();

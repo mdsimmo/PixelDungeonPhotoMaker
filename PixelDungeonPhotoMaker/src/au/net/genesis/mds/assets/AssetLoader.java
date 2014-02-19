@@ -18,7 +18,6 @@ public class AssetLoader {
 	 * @return the resource
 	 */
 	public static BufferedImage loadImage(String file) {
-		System.out.println("loading image: (" + file + ")\n");
 		InputStream input = AssetLoader.class.getResourceAsStream(file);
 		try {
 			return ImageIO.read(input);
@@ -26,7 +25,6 @@ public class AssetLoader {
 			e.printStackTrace();
 			return null;
 		}
-		
 	}
 	
 	/**
@@ -36,20 +34,6 @@ public class AssetLoader {
 	 */
 	public static String getImagePath(String image) {
 		return "/resources/" + image;
-		/*URL url = assetLoader.getClass().getResource("/resources/" + image);
-		if (url == null) {
-			System.out.println("troublesome image: " + image);
-		}
-		File file = null;
-		try {
-			file = new File(URLDecoder.decode(url.getPath(), "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		System.out.println("file path: (" + file.getPath() + ")\n");
-		//File file = new File("resources/" + image);
-		return file;
-		*/
 	}
 	
 	/**
@@ -58,7 +42,7 @@ public class AssetLoader {
 	 * @param file the name of the asset
 	 * @return the file of the asset
 	 */
-	public static String getDungeonFile(String file) {
+	public static String getDungeonPath(String file) {
 		return getImagePath("gameimages/" + file);
 	}
 

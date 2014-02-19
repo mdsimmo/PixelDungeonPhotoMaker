@@ -6,8 +6,8 @@ public class EnemyInfoboxControl extends ItemInfoboxControl {
 
 	public EnemyInfoboxControl() {
 		super();
-		ic.setAsset(AssetLoader.getDungeonFile("rat.png"));
-		assetSelector.setAssetFile(AssetLoader.getDungeonFile("rat.png"));
+		ic.setAsset(AssetLoader.getDungeonPath("rat.png"));
+		assetSelector.setAssetFile(AssetLoader.getDungeonPath("rat.png"));
 	}
 	
 }

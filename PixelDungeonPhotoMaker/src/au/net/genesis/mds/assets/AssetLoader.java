@@ -46,4 +46,8 @@ public class AssetLoader {
 		return getImageFile("gameassets/" + file);
 	}
 
+	public static File getTempFile(String file) {
+		return getImageFile("temp/" + file);
+	}
+
 }

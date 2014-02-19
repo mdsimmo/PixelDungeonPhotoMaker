@@ -12,6 +12,7 @@ import javax.security.auth.login.LoginException;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTabbedPane;
@@ -160,16 +161,20 @@ public class OptionsPanel extends JPanel implements ActionListener {
 		}
 		if (e.getSource() == uploadButton) {
 			// must save image before uploading it		
-			File save = new File("output2/save.png");
+			File save = AssetLoader.getTempFile("save.png");
 			try {
 				ImageIO.write(currentControl.getImage(), "png", save);
 				PhotoMaker.wiki.login(usernameBox.getText(),passwordBox.getText());
 				PhotoMaker.wiki.upload(save, imagenameBox.getText(), imagenameBox.getText(), "");
 			} catch (LoginException e1) {
 				System.err.println("couldn't login");
+				JOptionPane.showMessageDialog(null, "Failed to login", "Bad Login", JOptionPane.OK_OPTION);
+				return;
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				System.err.println("couldn't upload image");
+				JOptionPane.showMessageDialog(null, "Failed to upload image. (but login was good)", "Oh oh", JOptionPane.OK_OPTION);
 			}
+			JOptionPane.showMessageDialog(null, "Image uploaded", "Uploaded image", JOptionPane.OK_OPTION);
 		}
 		
 	}

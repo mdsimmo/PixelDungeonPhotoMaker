@@ -30,7 +30,7 @@ public class AssetLoader {
 		//System.out.println(url);
 		File file = null;
 		//file = new File( URLDecoder.decode( url.getFile(), "UTF-8" ));
-		file = new File("bubble.png");
+		file = new File("resources/" + image);
 		//File file =  new File("/resources/" + image);
 		System.out.println(file.getAbsolutePath());
 		return file;

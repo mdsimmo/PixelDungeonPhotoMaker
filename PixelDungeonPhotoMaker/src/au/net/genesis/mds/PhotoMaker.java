@@ -1,5 +1,6 @@
 package au.net.genesis.mds;
 
+
 import javax.swing.JFrame;
 
 import org.wikipedia.Wiki;
@@ -25,21 +26,6 @@ public class PhotoMaker {
 		
 		MainGui mainGui = new MainGui();
 		mainGui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainGui.setVisible(true);
-		
-		
+		mainGui.setVisible(true);		
 	}
-
-	/**
-	 * Gets the path to the resource folder
-	 * 
-	 * @param string
-	 *            the location inside the resource directory
-	 * @return the resource file's path
-	 */
-	public static String getResource(String string) {
-		return "resources/" + string;
-
-	}
-
 }

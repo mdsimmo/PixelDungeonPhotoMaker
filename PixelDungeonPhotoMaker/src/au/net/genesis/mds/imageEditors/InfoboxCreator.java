@@ -4,10 +4,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-
+import au.net.genesis.mds.assets.AssetLoader;
 import au.net.genesis.mds.assets.InfoboxBack;
 import au.net.genesis.mds.helpers.GraphicHelper;
 
@@ -36,13 +34,8 @@ public class InfoboxCreator {
 	 *            the name of the asset file
 	 * @return this
 	 */
-	public InfoboxCreator setAsset(String fileName) {
-		try {
-			asset = ImageIO.read(new File(fileName));
-		} catch (IOException e) {
-			System.out.printf("Could not load image %s", fileName);
-			e.printStackTrace();
-		}
+	public InfoboxCreator setAsset(File fileName) {
+		asset = AssetLoader.loadImage(fileName);
 		return this;
 	}
 

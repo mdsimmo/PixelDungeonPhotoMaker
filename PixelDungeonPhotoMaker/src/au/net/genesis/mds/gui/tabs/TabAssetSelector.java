@@ -10,16 +10,15 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import au.net.genesis.mds.assets.AssetLoader;
 import au.net.genesis.mds.helpers.GraphicHelper;
 
 /**
@@ -42,7 +41,7 @@ public class TabAssetSelector extends JPanel{
 		/**
 		 * Called when the selected asset changes
 		 */
-		public void assetChange(String file);
+		public void assetChange(File file);
 	}
 
 	/**
@@ -107,10 +106,10 @@ public class TabAssetSelector extends JPanel{
 				this.scale *= 0.5;
 			}
 			if (e.getSource() == fileButton) {
-				JFileChooser fc = new JFileChooser("assets");
+				JFileChooser fc = new JFileChooser(file);
 				int returnVal = fc.showOpenDialog(this);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					fileName = fc.getSelectedFile().toString();
+					file = fc.getSelectedFile();
 					updateImage();
 					notifyAssetChange();
 				}
@@ -123,11 +122,7 @@ public class TabAssetSelector extends JPanel{
 		}
 		
 		public void updateImage() {
-			try {
-				drawImage = asset = ImageIO.read(new File(fileName));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			drawImage = asset = AssetLoader.loadImage(file);
 		}
 
 		@Override
@@ -147,7 +142,7 @@ public class TabAssetSelector extends JPanel{
 	private JButton zoomIn = new JButton("+"), zoomOut = new JButton("-");
 	private JButton fileButton = new JButton("Select file");
 	private ArrayList<SelectorListener> listeners = new ArrayList<TabAssetSelector.SelectorListener>();
-	private String fileName = "assets/items.png";
+	private File file = AssetLoader.getDungeonFile("items.png");
 	private SelectorPanel selector = new SelectorPanel(this);
 	
 	/**
@@ -190,7 +185,14 @@ public class TabAssetSelector extends JPanel{
 			ystart = selector.ystart;
 			yend = selector.yend;
 		}
-		return new Rectangle(xstart, ystart, xend-xstart, yend-ystart);
+		// make sure the rectangle has some area
+		int width = xend-xstart;
+		int height = yend-ystart;
+		if (width <= 0)
+			width = 1;
+		if (height <= 0)
+			height = 1;
+		return new Rectangle(xstart, ystart, width, height);
 	}
 	
 	/**
@@ -201,14 +203,14 @@ public class TabAssetSelector extends JPanel{
 		this.listeners.add(listener);
 	}
 	
-	public void setAssetFile(String file) {
-		this.fileName = file;
+	public void setAssetFile(File file) {
+		this.file = file;
 		notifyAssetChange();
 		selector.updateImage();
 	}
 	private void notifyAssetChange() {
 		for (SelectorListener l : listeners) {
-			l.assetChange(fileName);
+			l.assetChange(file);
 		}
 	}
 	private void notifySelectionChange() {

@@ -21,8 +21,8 @@ public class GraphicHelper {
 	}
 
 	public static BufferedImage rotateImage(BufferedImage image, double rotation) {
-		int width = image.getWidth(null);
-		int height = image.getHeight(null);
+		int width = image.getWidth();
+		int height = image.getHeight();
 
 		double rotationRequired = Math.toRadians(rotation);
 		double locationX = width / 2;
@@ -42,8 +42,8 @@ public class GraphicHelper {
 	}
 
 	public static BufferedImage applyAlpha(BufferedImage image, double alpha) {
-		int width = image.getWidth(null);
-		int height = image.getHeight(null);
+		int width = image.getWidth();
+		int height = image.getHeight();
 		BufferedImage newImage = new BufferedImage(width, height,
 				BufferedImage.TYPE_INT_ARGB);
 		AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
@@ -57,8 +57,8 @@ public class GraphicHelper {
 
 	public static BufferedImage scaleImage(BufferedImage image, double xscale,
 			double yscale) {
-		int width = (int) ((double) (image.getWidth(null)) * xscale);
-		int height = (int) ((double) (image.getHeight(null)) * yscale);
+		int width = (int) ((double) (image.getWidth()) * xscale);
+		int height = (int) ((double) (image.getHeight()) * yscale);
 		Image newImage = image.getScaledInstance(width, height,
 				Image.SCALE_FAST);
 		BufferedImage newBuffered = new BufferedImage(width, height,

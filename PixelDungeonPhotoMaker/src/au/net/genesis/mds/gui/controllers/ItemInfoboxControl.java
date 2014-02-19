@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -13,6 +14,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import au.net.genesis.mds.assets.AssetLoader;
 import au.net.genesis.mds.gui.PreviewPanel;
 import au.net.genesis.mds.gui.tabs.TabAssetSelector;
 import au.net.genesis.mds.gui.tabs.TabAssetSelector.SelectorListener;
@@ -33,7 +35,7 @@ public class ItemInfoboxControl implements TabControl, ActionListener, SelectorL
 	
 	public ItemInfoboxControl() {
 		ic = new InfoboxCreator()
-			.setAsset("assets/items.png");
+			.setAsset(AssetLoader.getDungeonFile("items.png"));
 		assetSelector = new TabAssetSelector();
 		assetSelector.addSelectorListener(this);
 	}
@@ -102,7 +104,7 @@ public class ItemInfoboxControl implements TabControl, ActionListener, SelectorL
 	}
 
 	@Override
-	public void assetChange(String file) {
+	public void assetChange(File file) {
 		ic.setAsset(file);
 		refreshPreview();
 		

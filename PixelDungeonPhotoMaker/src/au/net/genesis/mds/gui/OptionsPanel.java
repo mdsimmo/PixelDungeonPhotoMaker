@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import au.net.genesis.mds.PhotoMaker;
+import au.net.genesis.mds.assets.AssetLoader;
 import au.net.genesis.mds.gui.controllers.BasicImagecControl;
 import au.net.genesis.mds.gui.controllers.EnemyInfoboxControl;
 import au.net.genesis.mds.gui.controllers.ItemInfoboxControl;
@@ -77,11 +78,11 @@ public class OptionsPanel extends JPanel implements ActionListener {
 		bic.setPreviewPanel(preview);
 		
 		// create the buttons for the pic type tab
-		itemButton = createButton("Item Infobox", new File(PhotoMaker.getResource("exampleItem.png")));
+		itemButton = createButton("Item Infobox", AssetLoader.getImageFile("exampleitem.png"));
 		itemButton.addActionListener(this);
-		enemyButton = createButton("Enemy Infobox", new File(PhotoMaker.getResource("exampleEnemy.png")));
+		enemyButton = createButton("Enemy Infobox",AssetLoader.getImageFile("exampleenemy.png"));
 		enemyButton.addActionListener(this);
-		basicImageButton = createButton("Basic Image", new File(PhotoMaker.getResource("exampleEnemy.png")));
+		basicImageButton = createButton("Basic Image", AssetLoader.getImageFile("exampleenemy.png"));
 		basicImageButton.addActionListener(this);
 				
 		refresh();
@@ -149,15 +150,9 @@ public class OptionsPanel extends JPanel implements ActionListener {
 	 * @return the created button
 	 */
 	public JButton createButton(String text, File image) {
-		ImageIcon icon;
-		try {
-			BufferedImage img = ImageIO.read(image);
-			img = GraphicHelper.scaleImage(img, 0.25, 0.25);
-			icon = new ImageIcon(img);
-		} catch (IOException e) {
-			icon = null;
-			System.err.println("Could not load image: " + image.toString());
-		}
+		BufferedImage img = AssetLoader.loadImage(image);
+		img = GraphicHelper.scaleImage(img, 0.25, 0.25);
+		ImageIcon icon = new ImageIcon(img);
 		JButton button = new JButton(text, icon);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);

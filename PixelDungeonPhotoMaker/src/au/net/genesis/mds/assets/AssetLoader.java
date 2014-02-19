@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 public class AssetLoader {
 	
 	/**
-	 * loads an image in the resources file
+	 * loads the specified image file
 	 * 
 	 * @param string
 	 *            the location inside the resource directory
@@ -19,28 +19,27 @@ public class AssetLoader {
 		try {
 			return ImageIO.read(file);
 		} catch (IOException e) {
-			System.out.println("could not get image: " + file);
+			System.out.println("could not load image: " + file);
 			return null;
 		}
 	}
 	
+	/**
+	 * gets the file of an image
+	 * @param image the image's file's name
+	 * @return the file of the image
+	 */
 	public static File getImageFile(String image) {
-		//System.out.println(PhotoMaker.class.getClassLoader().getResource("resources/" + image).toString());
-		//URL url = ClassLoader.class.getResource("C:\\Documents and Settings\\Simmons\\My Documents\\Matthew");
-		//System.out.println(url);
-		File file = null;
-		//file = new File( URLDecoder.decode( url.getFile(), "UTF-8" ));
-		file = new File("resources/" + image);
-		//File file =  new File("/resources/" + image);
+		File file = new File("resources/" + image);
 		System.out.println(file.getAbsolutePath());
 		return file;
 	}
 	
 	/**
-	 * Gives the relative path to the games assets folder
+	 * Gives the file to a game's asset
 	 * 
-	 * @param file
-	 * @return
+	 * @param file the name of the asset
+	 * @return the file of the asset
 	 */
 	public static File getDungeonFile(String file) {
 		return getImageFile("gameimages/" + file);

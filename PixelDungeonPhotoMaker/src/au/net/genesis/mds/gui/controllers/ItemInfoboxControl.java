@@ -1,22 +1,22 @@
 package au.net.genesis.mds.gui.controllers;
 
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import au.net.genesis.mds.assets.AssetLoader;
+import au.net.genesis.mds.assets.AssetFinder;
 import au.net.genesis.mds.assets.InfoboxBack;
-import au.net.genesis.mds.gui.PreviewPanel;
+import au.net.genesis.mds.gui.MainGui;
+import au.net.genesis.mds.gui.OptionsPanel;
 import au.net.genesis.mds.gui.tabs.TabAssetSelector;
 import au.net.genesis.mds.gui.tabs.TabAssetSelector.SelectorListener;
 import au.net.genesis.mds.gui.tabs.TabBackgroundSelect;
@@ -24,22 +24,29 @@ import au.net.genesis.mds.gui.tabs.TabBackgroundSelect.BackgroundListener;
 import au.net.genesis.mds.imageEditors.InfoboxCreator;
 
 
-public class ItemInfoboxControl implements TabControl, ActionListener, SelectorListener, ChangeListener, BackgroundListener {
+public class ItemInfoboxControl extends TabControl implements ActionListener, SelectorListener, ChangeListener, BackgroundListener {
 	
-	protected InfoboxCreator ic;
-	private PreviewPanel preview;
-	protected TabAssetSelector assetSelector;
+	private InfoboxCreator ic;
+	private TabAssetSelector assetSelector;
 	private TabBackgroundSelect backgroundSelect;
-	private JSlider scaleSlider = new JSlider(1, 24, 14);
-	private JLabel scaleLabel = new JLabel(Integer.toString(scaleSlider.getValue()));
-	private JSlider shadowSlider = new JSlider(1, 32, 8);
-	private JLabel shadowLabel = new JLabel(Integer.toString(shadowSlider.getValue()));
-	private JSlider shadowOpacitySlider = new JSlider(1, 100, 80);
-	private JLabel shadowOpacityLabel = new JLabel(Integer.toString(shadowOpacitySlider.getValue()));
+	private JSlider scaleSlider;
+	private JLabel scaleLabel;
+	private JSlider shadowSlider;
+	private JLabel shadowLabel;
+	private JSlider shadowOpacitySlider;
+	private JLabel shadowOpacityLabel;
 	
-	public ItemInfoboxControl() {
+	public ItemInfoboxControl(OptionsPanel optionsPanel) {
+		super(optionsPanel);
 		ic = new InfoboxCreator()
-			.setAsset(AssetLoader.getDungeonFile("items.png"));
+			.setAsset(AssetFinder.getDungeonFile("items.png"))
+			.setOutputFile(outputFile);
+		scaleSlider = new JSlider(1, 24, ic.getItemScale());
+		scaleLabel = new JLabel(Integer.toString(scaleSlider.getValue()));
+		shadowSlider = new JSlider(0, 32, ic.getShadowRadius());
+		shadowLabel = new JLabel(Integer.toString(shadowSlider.getValue()));
+		shadowOpacitySlider = new JSlider(0, 100, (int)(ic.getShadowOpacity()*100));
+		shadowOpacityLabel = new JLabel(Integer.toString(shadowOpacitySlider.getValue()));
 		assetSelector = new TabAssetSelector();
 		assetSelector.addSelectorListener(this);
 		backgroundSelect = new TabBackgroundSelect();
@@ -47,19 +54,14 @@ public class ItemInfoboxControl implements TabControl, ActionListener, SelectorL
 	}
 
 	@Override
-	public void setPreviewPanel(PreviewPanel preview) {
-		this.preview = preview;
-	}
-
-	@Override
-	public void configureTabAsset(JPanel panel) {
+	public void configureAssetTab(JPanel panel) {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 		panel.add(assetSelector);
 		
 	}
 
 	@Override
-	public void configureTabOptions(JPanel panel) {
+	public void configureOptionTab(JPanel panel) {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		JPanel scalePanel = new JPanel();
@@ -91,19 +93,6 @@ public class ItemInfoboxControl implements TabControl, ActionListener, SelectorL
 		panel.add(Box.createVerticalGlue());
 		
 	}
-	
-	@Override
-	public void refreshPreview() {
-		if (preview != null) {
-			preview.updateImage(getImage());
-		}
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		refreshPreview();
-		
-	}
 
 	@Override
 	public void selectionChange(Rectangle selection) {
@@ -119,8 +108,14 @@ public class ItemInfoboxControl implements TabControl, ActionListener, SelectorL
 	}
 
 	@Override
-	public BufferedImage getImage() {
+	public File createImage() {
 		return ic.getImage();
+		
+	}
+	
+	@Override
+	public String getName() {
+		return "Item Infobox";
 	}
 
 	@Override
@@ -146,6 +141,22 @@ public class ItemInfoboxControl implements TabControl, ActionListener, SelectorL
 	public void backgroundChange(InfoboxBack back) {
 		ic.setBackground(back);
 		refreshPreview();
+	}
+
+	@Override
+	public JButton getMenuButton() {
+		if (menuButon == null) {
+			menuButon = MainGui.createButton("Item Infobox",AssetFinder.getImageFile("exampleitem.png"));
+			menuButon.addActionListener(this);
+		}
+		return super.getMenuButton();
+	}
+	
+	public TabAssetSelector getAssetSelector() {
+		return assetSelector;
+	}
+	public InfoboxCreator getInfoboxCreator() {
+		return ic;
 	}
 
 	

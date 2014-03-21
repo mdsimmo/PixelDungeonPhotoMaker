@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
-import au.net.genesis.mds.assets.AssetLoader;
+import au.net.genesis.mds.assets.AssetFinder;
 import au.net.genesis.mds.helpers.GraphicHelper;
 
 /**
@@ -31,6 +31,7 @@ public class MainGui extends JFrame {
 
 	private PreviewPanel previewPanel = new PreviewPanel();
 	private JPanel container = new JPanel();
+	public static Logger logger = new Logger();
 	private OptionsPanel optionPanel = new OptionsPanel(previewPanel);
 	
 	/**
@@ -43,8 +44,15 @@ public class MainGui extends JFrame {
 		container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
 		container.add(optionPanel);
 		container.add(new JSeparator(SwingConstants.VERTICAL));
-		container.add(previewPanel);
+		JPanel right = new JPanel();
+		right.setLayout(new BoxLayout(right, BoxLayout.Y_AXIS));
+		right.add(previewPanel);
+		right.add(logger);
+		logger.log("Welcome to the Pixel Dungeon Photo Maker!");
+		logger.log("");
+		container.add(right);
 		container.add(Box.createHorizontalGlue());
+		optionPanel.refresh();
 		this.pack();
 	}
 
@@ -55,8 +63,9 @@ public class MainGui extends JFrame {
 	 * @return the created button
 	 */
 	public static JButton createButton(String text, File image) {
-		BufferedImage img = AssetLoader.loadImage(image);
-		img = GraphicHelper.scaleImage(img, 0.25, 0.25);
+		BufferedImage img = AssetFinder.loadImage(image);
+		float scale = 64 / (float)img.getWidth();
+		img = GraphicHelper.scaleImage(img, scale, scale);
 		ImageIcon icon = new ImageIcon(img);
 		JButton button = new JButton(text, icon);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);

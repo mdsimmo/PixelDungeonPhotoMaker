@@ -1,6 +1,5 @@
 package au.net.genesis.mds;
 
-
 import javax.swing.JFrame;
 
 import org.wikipedia.Wiki;
@@ -8,24 +7,23 @@ import org.wikipedia.Wiki;
 import au.net.genesis.mds.gui.MainGui;
 
 public class PhotoMaker {
-	
+
 	public static Wiki wiki;
 
-	/*
-	 * TODO list: 
-	 * create own image drop shadow [optional] 
-	 * make an auto gif
-	 * creator make enemy gifs 
-	 * make standard images
-	 * gui version?
-	 */
-
-	public static void main(String[] args) {
-		wiki = new Wiki("pixeldungeon.wikia.com", "");
-		wiki.setUsingCompressedRequests(false);
-		
+	public static void createGui() {
 		MainGui mainGui = new MainGui();
 		mainGui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainGui.setVisible(true);		
+		mainGui.setResizable(false);
+		mainGui.setVisible(true);
+	}
+
+	public static void setUpWikibot() {
+		wiki = new Wiki("pixeldungeon.wikia.com", "");
+		wiki.setUsingCompressedRequests(false);
+	}
+	
+	public static void main(String[] args) {
+		setUpWikibot();
+		createGui();
 	}
 }

@@ -18,7 +18,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import au.net.genesis.mds.assets.AssetLoader;
+import au.net.genesis.mds.assets.AssetFinder;
 import au.net.genesis.mds.helpers.GraphicHelper;
 
 /**
@@ -83,8 +83,8 @@ public class TabAssetSelector extends JPanel{
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			xstart = (int) (e.getX()/scale);
-			ystart = (int) (e.getY()/scale);
+			xstart = xend = (int) (e.getX()/scale);
+			ystart = yend = (int) (e.getY()/scale);
 			repaint();
 			
 		}
@@ -122,7 +122,7 @@ public class TabAssetSelector extends JPanel{
 		}
 		
 		public void updateImage() {
-			drawImage = asset = AssetLoader.loadImage(file);
+			drawImage = asset = AssetFinder.loadImage(file);
 		}
 
 		@Override
@@ -142,7 +142,7 @@ public class TabAssetSelector extends JPanel{
 	private JButton zoomIn = new JButton("+"), zoomOut = new JButton("-");
 	private JButton fileButton = new JButton("Select file");
 	private ArrayList<SelectorListener> listeners = new ArrayList<TabAssetSelector.SelectorListener>();
-	private File file = AssetLoader.getDungeonFile("items.png");
+	private File file = AssetFinder.getDungeonFile("items.png");
 	private SelectorPanel selector = new SelectorPanel(this);
 	
 	/**
@@ -168,7 +168,7 @@ public class TabAssetSelector extends JPanel{
 	 * Gets the selection that the user has specified
 	 * @return the selected area
 	 */
-	private Rectangle getSelection() {
+	public Rectangle getSelection() {
 		// make sure the rectangle is from top left to bot right
 		int xstart, xend, ystart, yend;
 		if (selector.xstart > selector.xend) {
@@ -199,24 +199,34 @@ public class TabAssetSelector extends JPanel{
 	 * Add to the listeners that will be informed of any selection changes 
 	 * @param listener
 	 */
-	public void addSelectorListener(SelectorListener listener) {
+	public TabAssetSelector addSelectorListener(SelectorListener listener) {
 		this.listeners.add(listener);
+		return this;
 	}
 	
-	public void setAssetFile(File file) {
+	public TabAssetSelector setAssetFile(File file) {
 		this.file = file;
 		notifyAssetChange();
 		selector.updateImage();
+		return this;
 	}
 	private void notifyAssetChange() {
 		for (SelectorListener l : listeners) {
 			l.assetChange(file);
 		}
 	}
+	
 	private void notifySelectionChange() {
 		for (SelectorListener l : listeners) {
 			l.selectionChange(getSelection());
 		}
+	}
+	public TabAssetSelector setSelection(Rectangle selection) {
+		selector.xstart = (int) selection.getMinX();
+		selector.ystart = (int) selection.getMinY();
+		selector.xend = (int) selection.getMaxX();
+		selector.yend = (int) selection.getMaxY();
+		return this;
 	}
 	
 }

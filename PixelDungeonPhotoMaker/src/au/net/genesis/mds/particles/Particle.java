@@ -2,12 +2,7 @@ package au.net.genesis.mds.particles;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-
-import au.net.genesis.mds.assets.ParticleType;
 import au.net.genesis.mds.helpers.GraphicHelper;
 
 public class Particle {
@@ -32,12 +27,10 @@ public class Particle {
 	private ParticleLogic logic;
 	private BufferedImage texture;
 
-	public Particle(ParticleSystem system, ParticleType type, int time) {
-		try {
-			texture = ImageIO.read(new File(type.getFile()));
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+	public Particle(ParticleSystem system, BufferedImage particle, int time) {
+
+		texture = particle;
+
 		// give some room around the edge so it can be rotated
 		BufferedImage replacement = new BufferedImage(texture.getWidth() * 2,
 				texture.getHeight() * 2, BufferedImage.TYPE_INT_ARGB);

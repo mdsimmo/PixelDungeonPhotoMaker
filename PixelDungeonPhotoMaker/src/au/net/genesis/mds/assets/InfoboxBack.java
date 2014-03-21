@@ -10,31 +10,31 @@ public enum InfoboxBack {
 	/** 
 	 * Infobox background used for the Sewers levels
 	 */
-	SEWER("sewersinfobox.png"),
+	SEWER("infoboxsewers.png"),
 	/** 
 	 * Infobox background used for the Prison levels
 	 */
-	PRISON("prisoninfobox.png"),
+	PRISON("infoboxprison.png"),
 	/** 
 	 * Infobox background used for the Caves levels
 	 */
-	CAVES("cavesinfobox.png"),
+	CAVES("infoboxcaves.png"),
 	/** 
 	 * Infobox background used for the Dwarf City
 	 */
-	CITY("cityinfobox.png"),
+	CITY("infoboxcity.png"),
 	/** 
 	 * Infobox background used for the Demon Halls
 	 */
-	HALLS("hallsinfobox.png");
+	HALLS("infoboxhalls.png");
 	
 	private BufferedImage texture;
 	private File file;
 	public static final int BACKGROUND_SIZE = 256;
 	
 	InfoboxBack(String fileName) {
-		this.file = AssetLoader.getImageFile(fileName);
-		texture = AssetLoader.loadImage(file);
+		this.file = AssetFinder.getImageFile(fileName);
+		texture = AssetFinder.loadImage(file);
 	}
 	
 	/**

@@ -3,8 +3,11 @@ package au.net.genesis.mds.imageEditors;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
-import au.net.genesis.mds.assets.AssetLoader;
+import javax.imageio.ImageIO;
+
+import au.net.genesis.mds.assets.AssetFinder;
 import au.net.genesis.mds.helpers.GraphicHelper;
 
 public class BasicImageCreator {
@@ -28,7 +31,7 @@ public class BasicImageCreator {
 	 * @return this
 	 */
 	public BasicImageCreator setAsset(File fileName) {
-		asset = AssetLoader.loadImage(fileName);
+		asset = AssetFinder.loadImage(fileName);
 		return this;
 	}
 
@@ -51,7 +54,7 @@ public class BasicImageCreator {
 	 * 
 	 * @return the infobox's image
 	 */
-	public BufferedImage getImage() {
+	public File getImage() {
 		if (asset != null && selection != null) {
 			
 			// gets the asset's image
@@ -105,7 +108,14 @@ public class BasicImageCreator {
 			// scales the items image
 			itemImage = GraphicHelper.scaleImage(itemImage, itemScale, itemScale);
 			
-			return itemImage;
+			// saves and returns the final image
+			File out = AssetFinder.getTempFile("basicImage.png");
+			try {
+				ImageIO.write(itemImage, "png", out);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return out;
 		} else {
 			System.err.println("Infobox could not draw: not all has information initialised!");
 			return null;

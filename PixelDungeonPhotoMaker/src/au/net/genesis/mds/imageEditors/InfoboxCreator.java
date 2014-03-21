@@ -4,8 +4,11 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
-import au.net.genesis.mds.assets.AssetLoader;
+import javax.imageio.ImageIO;
+
+import au.net.genesis.mds.assets.AssetFinder;
 import au.net.genesis.mds.assets.InfoboxBack;
 import au.net.genesis.mds.helpers.GraphicHelper;
 
@@ -16,9 +19,10 @@ public class InfoboxCreator {
 	private BufferedImage asset = null;
 	private Rectangle selection;
 	private InfoboxBack background = InfoboxBack.SEWER;
-	private int itemScale = 12;
+	private int itemScale = 14;
 	private int shadowRadius = 12;
 	private float shadowOpacity = 0.8F;
+	private File outputFile = AssetFinder.getTempFile("save.png");
 
 	/**
 	 * This class will take an asset file and generate an info box
@@ -35,7 +39,7 @@ public class InfoboxCreator {
 	 * @return this
 	 */
 	public InfoboxCreator setAsset(File fileName) {
-		asset = AssetLoader.loadImage(fileName);
+		asset = AssetFinder.loadImage(fileName);
 		return this;
 	}
 
@@ -64,13 +68,18 @@ public class InfoboxCreator {
 		this.background = background;
 		return this;
 	}
+	
+	public InfoboxCreator setOutputFile(File out) {
+		outputFile = out;
+		return this;
+	}
 
 	/**
 	 * Gets the final infobox image
 	 * 
 	 * @return the infobox's image
 	 */
-	public BufferedImage getImage() {
+	public File getImage() {
 		if (asset != null && background != null && selection != null) {
 			// Create the background (which is already correct size)
 			BufferedImage image = new BufferedImage(
@@ -78,7 +87,7 @@ public class InfoboxCreator {
 					BufferedImage.TYPE_INT_ARGB);
 			Graphics g = image.getGraphics();
 			background.drawImage(g, 0, 0);
-
+			
 			// gets the asset's image
 			BufferedImage itemImage = new BufferedImage(selection.width,
 					selection.height, BufferedImage.TYPE_INT_ARGB);
@@ -120,10 +129,16 @@ public class InfoboxCreator {
 					(InfoboxBack.BACKGROUND_SIZE - itemImage.getWidth()) / 2,
 					(InfoboxBack.BACKGROUND_SIZE - itemImage.getHeight()) / 2,
 					null);
-			return image;
+			
+			// saves and returns the final image
+			try {
+				ImageIO.write(image, "png", outputFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return outputFile;
 		} else {
-			System.err
-					.println("Infobox could not draw: not all has information initialised!");
+			System.err.println("Infobox could not draw: not all has information initialised!");
 			return null;
 		}
 	}
@@ -140,6 +155,10 @@ public class InfoboxCreator {
 	public InfoboxCreator setItemScale(int scale) {
 		this.itemScale = scale;
 		return this;
+	}
+	
+	public int getItemScale() {
+		return itemScale;
 	}
 
 	/**
@@ -176,5 +195,11 @@ public class InfoboxCreator {
 		this.shadowRadius = radius;
 		this.shadowOpacity = opacity;
 		return this;
+	}
+	public int getShadowRadius() {
+		return shadowRadius;
+	}
+	public float getShadowOpacity() {
+		return shadowOpacity;
 	}
 }

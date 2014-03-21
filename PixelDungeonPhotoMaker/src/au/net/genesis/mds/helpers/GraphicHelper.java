@@ -32,8 +32,7 @@ public class GraphicHelper {
 		AffineTransformOp op = new AffineTransformOp(tx,
 				AffineTransformOp.TYPE_BILINEAR);
 
-		BufferedImage newImage = new BufferedImage(width, height,
-				BufferedImage.TYPE_INT_ARGB);
+		BufferedImage newImage = new BufferedImage(width, height, image.getType());
 		Graphics2D g2d = (Graphics2D) newImage.getGraphics();
 		// Drawing the rotated image at the required drawing locations
 		g2d.drawImage(op.filter(image, null), 0, 0, null);
@@ -44,8 +43,7 @@ public class GraphicHelper {
 	public static BufferedImage applyAlpha(BufferedImage image, double alpha) {
 		int width = image.getWidth();
 		int height = image.getHeight();
-		BufferedImage newImage = new BufferedImage(width, height,
-				BufferedImage.TYPE_INT_ARGB);
+		BufferedImage newImage = new BufferedImage(width, height, image.getType());
 		AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
 				(float) alpha);
 		Graphics2D g2d = (Graphics2D) newImage.getGraphics();
@@ -61,8 +59,7 @@ public class GraphicHelper {
 		int height = (int) ((double) (image.getHeight()) * yscale);
 		Image newImage = image.getScaledInstance(width, height,
 				Image.SCALE_FAST);
-		BufferedImage newBuffered = new BufferedImage(width, height,
-				BufferedImage.TYPE_INT_ARGB);
+		BufferedImage newBuffered = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		newBuffered.getGraphics().drawImage(newImage, 0, 0, null);
 		return newBuffered;
 	}

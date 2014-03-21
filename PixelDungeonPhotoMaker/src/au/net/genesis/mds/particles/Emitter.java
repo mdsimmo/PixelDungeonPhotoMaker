@@ -1,24 +1,27 @@
 package au.net.genesis.mds.particles;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import au.net.genesis.mds.assets.ParticleType;
+import au.net.genesis.mds.assets.AssetFinder;
 import au.net.genesis.mds.helpers.MathHelper;
 import au.net.genesis.mds.particles.Particle.ParticleSystem;
 
 public class Emitter {
 
 	private ParticleSystem system;
-	private ParticleType type;
+	private BufferedImage particleImg;
 	private ArrayList<Particle> particles = new ArrayList<Particle>();
 	private int particleFlow;
 	private int areaRange;
 
 	public Emitter() {
 		// set default values
-		setParticleSystem(ParticleSystem.BUBBLE)
-			.setParticleType(ParticleType.BUBBLE)
+		BufferedImage img = new BufferedImage(8, 8, BufferedImage.TYPE_INT_ARGB);
+		img.getGraphics().drawImage(AssetFinder.loadImage(AssetFinder.getDungeonFile("specks.png")), 0, 0, null);
+		setParticleSystem(ParticleSystem.POP_UP)
+			.setParticleImg(img)
 			.setParticleFlow(10)
 			.setAreaRange(4);
 	}
@@ -29,7 +32,7 @@ public class Emitter {
 		}
 		if (!looped) {
 			if (tick % particleFlow == 0) {
-				Particle particle = new Particle(this.system, this.type, tick);
+				Particle particle = new Particle(this.system, this.particleImg, tick);
 				particles.add(particle);
 				particle.getLogic().setLocation(
 						MathHelper.randomRange(-areaRange, areaRange),
@@ -42,6 +45,10 @@ public class Emitter {
 				}
 			}
 		}
+	}
+	
+	public void flush() {
+		particles = new ArrayList<Particle>();
 	}
 
 	public void draw(Graphics g, int x, int y, float scale) {
@@ -56,8 +63,8 @@ public class Emitter {
 	}
 	
 
-	public Emitter setParticleType(ParticleType type) {
-		this.type = type;
+	public Emitter setParticleImg(BufferedImage particle) {
+		this.particleImg = particle;
 		return this;
 	}
 	

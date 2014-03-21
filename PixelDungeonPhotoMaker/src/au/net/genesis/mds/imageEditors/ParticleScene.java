@@ -4,55 +4,59 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import au.net.genesis.mds.assets.ParticleType;
+import au.net.genesis.mds.assets.AssetFinder;
 import au.net.genesis.mds.assets.WellType;
+import au.net.genesis.mds.helpers.GifSequenceWriter;
 import au.net.genesis.mds.helpers.GraphicHelper;
+import au.net.genesis.mds.helpers.Untils;
 import au.net.genesis.mds.particles.Emitter;
 import au.net.genesis.mds.particles.Particle.ParticleSystem;
 
-public class ParticleScene extends Thread {
+public class ParticleScene {
 
 	private WellType wellType;
 	private Emitter emitter;
-	private boolean process = false;
 	private int width, height;
-	private String outputFile;
+	private File outputFile;
 
 	/**
-	 * Creates an animated scene with a well and an emitter. <br>
-	 * The output will be a collection of .pngs. Output location can be changed
-	 * with setOuputFile()
+	 * This class can create a particle scene.  
 	 */
 	public ParticleScene() {
 		emitter = new Emitter();
 		// default value
-		setSceneSize(96, 96).setWellType(WellType.ALCHEMY).setOutputFile(
-				"output/save");
+		setSceneSize(96, 96).setWellType(WellType.MAGIC_WELL)
+			.setOutputFile(AssetFinder.getTempFile(""));
 	}
 
 	/**
-	 * Call this method to bake the particle scene
+	 * creates the particle scene. <br>
+	 * The function will save all the individual frames and the compiled gif
+	 * @return the location of the compiled gif
 	 */
-	public void begin() {
-		this.process = true;
-		this.start();
+	public File createScene(){
+		makeFrames();
+		return makeGif();
+		
 	}
 
-	public void finish() {
-		this.process = false;
-	}
-
-	public void run() {
-
-		int loopNumber = 0;
-		boolean looped = false;
+	private void makeFrames() {
 		int frames = 100;
 		float scale;
-		while (process) {
+		emitter.flush();
+		
+		// generate where the particles should spawn
+		for (int loopNumber = 0; loopNumber < frames; loopNumber++) {
+			emitter.update(loopNumber, false);
+		}
+		
+		// loop again but this time drawing the frames and not generating particles
+		for (int loopNumber = 0; loopNumber < frames; loopNumber++) {
 			BufferedImage wellImage = wellType.getImage();
 			scale = (float) width / (float) wellImage.getWidth();
 			wellImage = GraphicHelper.scaleImage(wellImage, scale, scale);
@@ -60,7 +64,7 @@ public class ParticleScene extends Thread {
 					BufferedImage.TYPE_INT_ARGB);
 			Graphics g = image.getGraphics();
 			g.drawImage(wellImage, 0, height - wellImage.getHeight(), null);
-			emitter.update(loopNumber, looped);
+			emitter.update(loopNumber, true);
 			emitter.draw(g, width / 2, height - wellImage.getHeight() / 2,
 					scale);
 
@@ -81,30 +85,27 @@ public class ParticleScene extends Thread {
 			image = background;
 
 			try {
-				ImageIO.write(image, "png", new File(outputFile + correctNumDidgits(loopNumber, 5)
-						+ ".png"));
+				ImageIO.write(image, "png", new File(outputFile.getPath() + "/particle" + Untils.fromatInt(loopNumber, 5)+ ".png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			loopNumber += 1;
-			if (loopNumber >= frames) {
-				if (looped) {
-					this.finish();
-				} else {
-					looped = true;
-					loopNumber = 0;
-				}
-			}
 		}
 	}
-
-
-	private String correctNumDidgits(int number, int didgits) {
-		String formated = Integer.toString(number);
-		for (int i = formated.length(); i < didgits; i ++) {
-			formated = "0" + formated;
-		}
-		return formated;
+	
+	private File makeGif() {
+		FilenameFilter filter = new FilenameFilter() {
+			
+			@Override
+			public boolean accept(File dir, String filename) {
+				if (filename.matches("particle\\d+\\.png")) {
+					return true;
+				}
+				return false;
+			}
+		};
+		File out = new File(outputFile.getPath()+ "/animation.gif");
+		GifSequenceWriter.createGif(outputFile, filter,out, 40, true, true);
+		return out;
 	}
 	
 	public ParticleScene setWellType(WellType wellType) {
@@ -117,8 +118,8 @@ public class ParticleScene extends Thread {
 		return this;
 	}
 
-	public ParticleScene setParticleType(ParticleType type) {
-		emitter.setParticleType(type);
+	public ParticleScene setParticle(BufferedImage particle) {
+		emitter.setParticleImg(particle);
 		return this;
 	}
 
@@ -138,9 +139,14 @@ public class ParticleScene extends Thread {
 		return this;
 	}
 
-	public ParticleScene setOutputFile(String file) {
+	/**
+	 * sets the output file. <br>
+	 * The appropriate extension will automatically be added to the end
+	 * @param file the output directory
+	 * @return this
+	 */
+	public ParticleScene setOutputFile(File file) {
 		this.outputFile = file;
 		return this;
 	}
-
 }

@@ -6,9 +6,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class AssetLoader {
+public class AssetFinder {
 	
-	public static AssetLoader assetLoader = new AssetLoader();
+	public static AssetFinder assetFinder = new AssetFinder();
 	
 	/**
 	 * loads the specified image file
@@ -18,7 +18,6 @@ public class AssetLoader {
 	 * @return the resource
 	 */
 	public static BufferedImage loadImage(File file) {
-		//InputStream input = AssetLoader.class.getResourceAsStream(file);
 		try {
 			return ImageIO.read(file);
 		} catch (IOException e) {

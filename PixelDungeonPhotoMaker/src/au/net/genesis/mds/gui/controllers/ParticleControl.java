@@ -70,7 +70,8 @@ public class ParticleControl extends TabControl implements SelectorListener, Cha
 
 	@Override
 	public File createImage() {
-		return ps.createScene();
+		outputFile = ps.createScene();
+		return outputFile;
 	}
 	@Override
 	public File getImage() {

@@ -5,10 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import javax.security.auth.login.LoginException;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -122,6 +124,19 @@ public abstract class TabControl implements ActionListener {
 				MainGui.logger.log("Error with login!!!");
 			} catch (IOException e1) {
 				MainGui.logger.log("Failed to upload image");
+			}
+		}
+		if (e.getSource() == saveButton) {
+			JFileChooser fc = new JFileChooser();
+			if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+				File save = fc.getSelectedFile();
+				try {
+					Files.copy(getImage().toPath(), save.toPath());
+					System.out.println(getImage().getPath());
+					MainGui.logger.log("Saved image");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 		}
 	}

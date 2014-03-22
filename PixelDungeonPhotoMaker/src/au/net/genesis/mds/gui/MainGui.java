@@ -1,6 +1,8 @@
 package au.net.genesis.mds.gui;
 
 import java.awt.Font;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -16,6 +18,7 @@ import javax.swing.SwingConstants;
 
 import au.net.genesis.mds.assets.AssetFinder;
 import au.net.genesis.mds.helpers.GraphicHelper;
+import au.net.genesis.mds.helpers.Untils;
 
 /**
  * Creates the gui that can be used to create images
@@ -25,7 +28,7 @@ import au.net.genesis.mds.helpers.GraphicHelper;
  * @author mdsimmo
  *
  */
-public class MainGui extends JFrame {
+public class MainGui extends JFrame implements WindowListener {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -53,6 +56,7 @@ public class MainGui extends JFrame {
 		container.add(right);
 		container.add(Box.createHorizontalGlue());
 		optionPanel.refresh();
+		this.addWindowListener(this);
 		this.pack();
 	}
 
@@ -72,6 +76,36 @@ public class MainGui extends JFrame {
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
 		button.setFont(new Font("Arial", Font.PLAIN, 10));
 		return button;
+	}
+
+	@Override
+	public void windowActivated(WindowEvent arg0) {
+	}
+
+	@Override
+	public void windowClosed(WindowEvent arg0) {
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent arg0) {		
+		Untils.deleteDirectory(AssetFinder.getTempFile(""));
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent arg0) {		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent arg0) {
+	}
+
+	@Override
+	public void windowIconified(WindowEvent arg0) {
+	}
+
+	@Override
+	public void windowOpened(WindowEvent arg0) {
 	}
 
 }

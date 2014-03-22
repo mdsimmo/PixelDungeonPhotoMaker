@@ -12,6 +12,7 @@ public class Emitter {
 
 	private ParticleSystem system;
 	private BufferedImage particleImg;
+	private float particleScale;
 	private ArrayList<Particle> particles = new ArrayList<Particle>();
 	private int particleFlow;
 	private int areaRange;
@@ -53,7 +54,7 @@ public class Emitter {
 
 	public void draw(Graphics g, int x, int y, float scale) {
 		for (Particle particle : particles) {
-			particle.draw(g, x, y, scale);
+			particle.draw(g, x, y, scale*particleScale);
 		}
 	}
 	
@@ -65,6 +66,11 @@ public class Emitter {
 
 	public Emitter setParticleImg(BufferedImage particle) {
 		this.particleImg = particle;
+		return this;
+	}
+	
+	public Emitter setParticleScale(float scale) {
+		this.particleScale = scale;
 		return this;
 	}
 	

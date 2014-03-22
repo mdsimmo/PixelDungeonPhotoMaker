@@ -15,7 +15,6 @@ import au.net.genesis.mds.helpers.GifSequenceWriter;
 import au.net.genesis.mds.helpers.GraphicHelper;
 import au.net.genesis.mds.helpers.Untils;
 import au.net.genesis.mds.particles.Emitter;
-import au.net.genesis.mds.particles.Particle.ParticleSystem;
 
 public class ParticleScene {
 
@@ -113,24 +112,8 @@ public class ParticleScene {
 		return this;
 	}
 
-	public ParticleScene setParticleSystem(ParticleSystem stystem) {
-		emitter.setParticleSystem(stystem);
-		return this;
-	}
-
-	public ParticleScene setParticle(BufferedImage particle) {
-		emitter.setParticleImg(particle);
-		return this;
-	}
-
-	public ParticleScene setParticleFlow(int flow) {
-		emitter.setParticleFlow(flow);
-		return this;
-	}
-
-	public ParticleScene setAreaRange(int range) {
-		emitter.setAreaRange(range);
-		return this;
+	public Emitter getEmitter() {
+		return emitter;
 	}
 
 	public ParticleScene setSceneSize(int width, int height) {

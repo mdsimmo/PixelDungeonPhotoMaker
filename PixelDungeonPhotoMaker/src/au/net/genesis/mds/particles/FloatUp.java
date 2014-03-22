@@ -9,7 +9,7 @@ public class FloatUp extends ParticleLogic {
 		super.initialise();
 		yspeed = -1;
 		alpha = 0;
-		xscale = yscale = 0.7F;
+		xscale = yscale =1F;
 	}
 
 	@Override

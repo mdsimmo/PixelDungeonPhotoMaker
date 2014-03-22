@@ -34,6 +34,7 @@ public class PreviewPanel extends JPanel {
 					File f = control.createImage();
 					remakeJLabel(new ImageIcon(f.toURI().toURL()));
 					MainGui.logger.log(control.getName() + " created.");
+					repaint();
 				} catch (IOException e) {
 					e.printStackTrace();
 					MainGui.logger.log("Something went wrong creating " + control.getName());
@@ -74,7 +75,6 @@ public class PreviewPanel extends JPanel {
 		currentRunner = runner;
 		exe.execute(runner);
 	}
-	boolean done = false;
 	
 	public void remakeJLabel(ImageIcon icon) {
 		icon.getImage().flush();

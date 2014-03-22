@@ -20,7 +20,7 @@ public class BasicImageCreator {
 	 * This class will take an asset file and generate an info box
 	 */
 	public BasicImageCreator() {
-		selection = new Rectangle(0, 0, 16, 16);
+		setSelection(new Rectangle(0, 0, 16, 16));
 	}
 
 	/**

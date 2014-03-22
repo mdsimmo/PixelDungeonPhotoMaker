@@ -9,6 +9,7 @@ import javax.swing.JTabbedPane;
 
 import au.net.genesis.mds.gui.controllers.BasicImageControl;
 import au.net.genesis.mds.gui.controllers.EnemyInfoboxControl;
+import au.net.genesis.mds.gui.controllers.GlowingControl;
 import au.net.genesis.mds.gui.controllers.ItemInfoboxControl;
 import au.net.genesis.mds.gui.controllers.ParticleControl;
 import au.net.genesis.mds.gui.controllers.TabControl;
@@ -38,7 +39,7 @@ public class OptionsPanel extends JPanel {
 	public OptionsPanel(PreviewPanel preview) {
 		// create the tabbed area
 		tabs = new JTabbedPane();
-		tabs.setPreferredSize(new Dimension(256,512));
+		tabs.setPreferredSize(new Dimension(128*3,512));
 		tabs.addTab("Pic Type", picTypeTab);
 		tabs.addTab("Asset", assetTab);
 		tabs.addTab("Options", optionTab);
@@ -50,6 +51,7 @@ public class OptionsPanel extends JPanel {
 		tabControls.add(new EnemyInfoboxControl(this));
 		tabControls.add(new BasicImageControl(this));
 		tabControls.add(new ParticleControl(this));
+		tabControls.add(new GlowingControl(this));
 		for (TabControl control : tabControls) {
 			control.setPreviewPanel(preview);
 		}

@@ -2,6 +2,7 @@ package au.net.genesis.mds.gui.tabs;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -115,8 +116,8 @@ public class TabAssetSelector extends JPanel{
 				}
 			}
 			drawImage = GraphicHelper.scaleImage(asset, scale, scale);
-			scroller.getVerticalScrollBar().setValue(ystart);
 			this.setPreferredSize(new Dimension(drawImage.getWidth(), drawImage.getHeight()));
+			scroller.getViewport().setViewPosition(new Point((int)((xstart)*scale), (int)((ystart)*scale)));
 			this.revalidate();
 			repaint();
 		}
@@ -226,6 +227,7 @@ public class TabAssetSelector extends JPanel{
 		selector.ystart = (int) selection.getMinY();
 		selector.xend = (int) selection.getMaxX();
 		selector.yend = (int) selection.getMaxY();
+		notifySelectionChange();
 		return this;
 	}
 	

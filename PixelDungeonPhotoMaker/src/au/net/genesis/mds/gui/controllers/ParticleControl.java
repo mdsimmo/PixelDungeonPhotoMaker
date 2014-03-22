@@ -73,10 +73,6 @@ public class ParticleControl extends TabControl implements SelectorListener, Cha
 		outputFile = ps.createScene();
 		return outputFile;
 	}
-	@Override
-	public File getImage() {
-		return outputFile;
-	}
 	
 	@Override
 	public String getName() {

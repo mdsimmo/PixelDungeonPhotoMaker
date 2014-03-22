@@ -67,12 +67,12 @@ public class BasicImageControl extends TabControl implements SelectorListener, C
 	public void assetChange(File file) {
 		bic.setAsset(file);
 		refreshPreview();
-		
 	}
-
+	
 	@Override
 	public File createImage() {
-		return bic.getImage();
+		outputFile = bic.getImage();
+		return outputFile;
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class BasicImageControl extends TabControl implements SelectorListener, C
 	@Override
 	public JButton getMenuButton() {
 		if (menuButon == null) {
-			menuButon = MainGui.createButton("Basic image",AssetFinder.getImageFile("well.png"));
+			menuButon = MainGui.createButton("Basic image",AssetFinder.getImageFile("examplebasic.png"));
 			menuButon.addActionListener(this);
 		}
 		return super.getMenuButton();

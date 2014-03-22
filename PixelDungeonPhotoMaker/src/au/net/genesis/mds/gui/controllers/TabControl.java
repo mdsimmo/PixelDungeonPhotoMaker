@@ -6,8 +6,10 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 import javax.security.auth.login.LoginException;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -41,7 +43,7 @@ public abstract class TabControl implements ActionListener {
 	public abstract File createImage();
 	public abstract String getName();
 	
-	public File getImage() {
+	public File getImageFile() {
 		return outputFile;
 	}
 	
@@ -61,7 +63,7 @@ public abstract class TabControl implements ActionListener {
 	
 	public JButton getMenuButton() {
 		if (menuButon == null) {
-			menuButon = MainGui.createButton("Unkowen button",AssetFinder.getImageFile("mark.png"));
+			menuButon = MainGui.createButton(getName(), AssetFinder.getImageFile("mark.png"));
 			menuButon.addActionListener(this);
 		}
 		return menuButon;
@@ -100,6 +102,8 @@ public abstract class TabControl implements ActionListener {
 			savePanel.add(saveButton);
 			saveButton.addActionListener(this);
 			panel.add(savePanel);
+			
+			panel.add(Box.createVerticalGlue());
 		}
 		panel = configueredUpload;
 	}
@@ -113,7 +117,7 @@ public abstract class TabControl implements ActionListener {
 		}
 		if (e.getSource() == uploadButton) {
 			// Upload an image
-			File save = getImage();
+			File save = getImageFile();
 			try {
 				MainGui.logger.log("Logging in to the wiki...");
 				PhotoMaker.wiki.login(usernameBox.getText(),passwordBox.getText());
@@ -131,8 +135,7 @@ public abstract class TabControl implements ActionListener {
 			if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 				File save = fc.getSelectedFile();
 				try {
-					Files.copy(getImage().toPath(), save.toPath());
-					System.out.println(getImage().getPath());
+					Files.copy(getImageFile().toPath(), save.toPath(), StandardCopyOption.REPLACE_EXISTING);
 					MainGui.logger.log("Saved image");
 				} catch (IOException e1) {
 					e1.printStackTrace();

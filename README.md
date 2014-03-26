@@ -23,5 +23,3 @@ A simple program would look something like this:
 	} catch (IOException e) {
 		e.printStackTrace();
 	}
-
-The code version also features a article system not available in the gui version (but it will be coming soon (hopefuly))

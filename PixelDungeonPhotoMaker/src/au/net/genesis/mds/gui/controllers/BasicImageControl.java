@@ -6,15 +6,14 @@ import java.io.File;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import au.net.genesis.mds.assets.AssetFinder;
 import au.net.genesis.mds.gui.MainGui;
 import au.net.genesis.mds.gui.OptionsPanel;
+import au.net.genesis.mds.gui.tabs.SliderLine;
 import au.net.genesis.mds.gui.tabs.TabAssetSelector;
 import au.net.genesis.mds.gui.tabs.TabAssetSelector.SelectorListener;
 import au.net.genesis.mds.imageEditors.BasicImageCreator;
@@ -23,8 +22,7 @@ public class BasicImageControl extends TabControl implements SelectorListener, C
 
 	protected BasicImageCreator bic;
 	protected TabAssetSelector assetSelector;
-	private JSlider scaleSlider = new JSlider(1,16,3);
-	private JLabel scaleLabel = new JLabel(Integer.toString(scaleSlider.getValue()));
+	private SliderLine scaleSlider;
 	
 	public BasicImageControl(OptionsPanel optionsPanel) {
 		super(optionsPanel);
@@ -32,6 +30,9 @@ public class BasicImageControl extends TabControl implements SelectorListener, C
 			.setAsset(AssetFinder.getDungeonFile("items.png"));
 		assetSelector = new TabAssetSelector();
 		assetSelector.addSelectorListener(this);
+		scaleSlider = new SliderLine("Item scale");
+		scaleSlider.getSlider().addChangeListener(this);
+		scaleSlider.initTo(1, 16, 3);
 	}
 
 	@Override
@@ -44,15 +45,7 @@ public class BasicImageControl extends TabControl implements SelectorListener, C
 	@Override
 	public void configureOptionTab(JPanel panel) {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		
-		JPanel scalePanel = new JPanel();
-		scalePanel.setLayout(new BoxLayout(scalePanel, BoxLayout.X_AXIS));
-		scalePanel.add(new JLabel("Item Scale"));
-		scaleSlider.addChangeListener(this);
-		scalePanel.add(scaleSlider);
-		scalePanel.add(scaleLabel);
-		panel.add(scalePanel);
-		
+		panel.add(scaleSlider);
 		panel.add(Box.createVerticalGlue());
 		
 	}
@@ -71,8 +64,7 @@ public class BasicImageControl extends TabControl implements SelectorListener, C
 	
 	@Override
 	public File createImage() {
-		outputFile = bic.getImage();
-		return outputFile;
+		return bic.getImage();
 	}
 
 	@Override
@@ -82,9 +74,8 @@ public class BasicImageControl extends TabControl implements SelectorListener, C
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		if (e.getSource() == scaleSlider) {
-			scaleLabel.setText(Integer.toString(scaleSlider.getValue()));
-			bic.setItemScale(scaleSlider.getValue());
+		if (e.getSource() == scaleSlider.getSlider()) {
+			bic.setItemScale(scaleSlider.getSlider().getValue());
 			refreshPreview();
 		}
 		

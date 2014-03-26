@@ -24,10 +24,8 @@ import au.net.genesis.mds.helpers.Untils;
  * Creates the gui that can be used to create images
  * for the Pixel Dungeon Wiki. <br>
  * Be warned: this gui is rather hacked together but it works (mostly)
- * 
- * @author mdsimmo
  *
- */
+*/
 public class MainGui extends JFrame implements WindowListener {
 	
 	private static final long serialVersionUID = 1L;

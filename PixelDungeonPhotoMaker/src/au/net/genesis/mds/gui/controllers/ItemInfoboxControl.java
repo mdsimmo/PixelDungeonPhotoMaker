@@ -7,9 +7,7 @@ import java.io.File;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -17,6 +15,7 @@ import au.net.genesis.mds.assets.AssetFinder;
 import au.net.genesis.mds.assets.InfoboxBack;
 import au.net.genesis.mds.gui.MainGui;
 import au.net.genesis.mds.gui.OptionsPanel;
+import au.net.genesis.mds.gui.tabs.SliderLine;
 import au.net.genesis.mds.gui.tabs.TabAssetSelector;
 import au.net.genesis.mds.gui.tabs.TabAssetSelector.SelectorListener;
 import au.net.genesis.mds.gui.tabs.TabBackgroundSelect;
@@ -29,24 +28,19 @@ public class ItemInfoboxControl extends TabControl implements ActionListener, Se
 	private InfoboxCreator ic;
 	private TabAssetSelector assetSelector;
 	private TabBackgroundSelect backgroundSelect;
-	private JSlider scaleSlider;
-	private JLabel scaleLabel;
-	private JSlider shadowSlider;
-	private JLabel shadowLabel;
-	private JSlider shadowOpacitySlider;
-	private JLabel shadowOpacityLabel;
+	private SliderLine scaleSlider, shadowSlider, shadowOpacitySlider;
 	
 	public ItemInfoboxControl(OptionsPanel optionsPanel) {
 		super(optionsPanel);
 		ic = new InfoboxCreator()
 			.setAsset(AssetFinder.getDungeonFile("items.png"))
-			.setOutputFile(outputFile);
-		scaleSlider = new JSlider(1, 24, ic.getItemScale());
-		scaleLabel = new JLabel(Integer.toString(scaleSlider.getValue()));
-		shadowSlider = new JSlider(0, 32, ic.getShadowRadius());
-		shadowLabel = new JLabel(Integer.toString(shadowSlider.getValue()));
-		shadowOpacitySlider = new JSlider(0, 100, (int)(ic.getShadowOpacity()*100));
-		shadowOpacityLabel = new JLabel(Integer.toString(shadowOpacitySlider.getValue()));
+			.setOutputFile(getOutputFile());
+		scaleSlider = new SliderLine("Item Scale").initTo(1, 24, ic.getItemScale());
+		scaleSlider.getSlider().addChangeListener(this);
+		shadowSlider = new SliderLine("Shadow Size").initTo(0, 32, ic.getShadowRadius());
+		shadowSlider.getSlider().addChangeListener(this);
+		shadowOpacitySlider = new SliderLine("Shadow ocupacity").initTo(0, 100, (int)(ic.getShadowOpacity()*100));
+		shadowOpacitySlider.getSlider().addChangeListener(this);
 		assetSelector = new TabAssetSelector();
 		assetSelector.addSelectorListener(this);
 		backgroundSelect = new TabBackgroundSelect();
@@ -64,30 +58,9 @@ public class ItemInfoboxControl extends TabControl implements ActionListener, Se
 	public void configureOptionTab(JPanel panel) {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
-		JPanel scalePanel = new JPanel();
-		scalePanel.setLayout(new BoxLayout(scalePanel, BoxLayout.X_AXIS));
-		scalePanel.add(new JLabel("Item scale"));
-		scaleSlider.addChangeListener(this);
-		scalePanel.add(scaleSlider);
-		scalePanel.add(scaleLabel);
-		panel.add(scalePanel);
-		
-		JPanel shadowPanel = new JPanel();
-		shadowPanel.setLayout(new BoxLayout(shadowPanel, BoxLayout.X_AXIS));
-		shadowPanel.add(new JLabel("Shadow size"));
-		shadowSlider.addChangeListener(this);
-		shadowPanel.add(shadowSlider);
-		shadowPanel.add(shadowLabel);
-		panel.add(shadowPanel);
-		
-		JPanel shadowOpacityPanel = new JPanel();
-		shadowOpacityPanel.setLayout(new BoxLayout(shadowOpacityPanel, BoxLayout.X_AXIS));
-		shadowOpacityPanel.add(new JLabel("Shadow opacity"));
-		shadowOpacitySlider.addChangeListener(this);
-		shadowOpacityPanel.add(shadowOpacitySlider);
-		shadowOpacityPanel.add(shadowOpacityLabel);
-		panel.add(shadowOpacityPanel);
-		
+		panel.add(scaleSlider);
+		panel.add(shadowSlider);
+		panel.add(shadowOpacitySlider);
 		panel.add(backgroundSelect);
 		
 		panel.add(Box.createVerticalGlue());
@@ -120,19 +93,15 @@ public class ItemInfoboxControl extends TabControl implements ActionListener, Se
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		if (e.getSource() == scaleSlider) {
-			int scale = ((JSlider)e.getSource()).getValue();
-			ic.setItemScale(scale);
-			scaleLabel.setText(Integer.toString(scale));
+		if (e.getSource() == scaleSlider.getSlider()) {
+			ic.setItemScale(scaleSlider.getSlider().getValue());
 			refreshPreview();
 			return;
 		}
 		if (e.getSource() == shadowSlider || e.getSource() == shadowOpacitySlider) {
-			int size = shadowSlider.getValue();
-			int opacity = shadowOpacitySlider.getValue(); 
+			int size = shadowSlider.getSlider().getValue();
+			int opacity = shadowOpacitySlider.getSlider().getValue(); 
 			ic.configureShadow(size, ((float)opacity)/100F);
-			shadowLabel.setText(Integer.toString(size));
-			shadowOpacityLabel.setText(Integer.toString(opacity));
 			refreshPreview();
 		}
 	}

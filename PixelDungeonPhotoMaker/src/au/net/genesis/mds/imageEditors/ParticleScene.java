@@ -123,7 +123,7 @@ public class ParticleScene {
 	}
 
 	/**
-	 * sets the output file. <br>
+	 * sets the output file directory. <br>
 	 * The appropriate extension will automatically be added to the end
 	 * @param file the output directory
 	 * @return this

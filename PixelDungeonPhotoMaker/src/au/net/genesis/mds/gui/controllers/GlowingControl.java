@@ -23,6 +23,7 @@ public class GlowingControl extends BasicImageControl {
 	public GlowingControl(OptionsPanel optionsPanel) {
 		super(optionsPanel);
 		gi = new GlowingItem();
+		colorChooser = new JColorChooser(gi.getColor());
 		assetSelector.setSelection(new Rectangle(16*3, 16*3, 16, 16));
 		refreshPreview();
 	}
@@ -32,14 +33,12 @@ public class GlowingControl extends BasicImageControl {
 		File f = super.createImage();
 		BufferedImage item = AssetFinder.loadImage(f);
 		gi.setImage(item);
-		outputFile = gi.createItem();
-		return outputFile;
+		return gi.createItem();
 	}
 	
 	@Override
 	public void configureOptionTab(JPanel panel) {
 		super.configureOptionTab(panel);
-		colorChooser = new JColorChooser(gi.getColor());
 		JScrollPane scrollPane = new JScrollPane(colorChooser);
 		colorChooser.getSelectionModel().addChangeListener(this);;
 		colorChooser.setPreviewPanel(new JPanel());
@@ -63,7 +62,7 @@ public class GlowingControl extends BasicImageControl {
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		super.stateChanged(e);
-		if (e.getSource() == colorChooser.getSelectionModel()) {
+		if (colorChooser != null && e.getSource() == colorChooser.getSelectionModel()) {
 			gi.setColor(colorChooser.getColor());
 			refreshPreview();
 		}

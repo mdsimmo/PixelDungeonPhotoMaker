@@ -10,7 +10,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -18,6 +17,8 @@ import au.net.genesis.mds.assets.AssetFinder;
 import au.net.genesis.mds.assets.WellType;
 import au.net.genesis.mds.gui.MainGui;
 import au.net.genesis.mds.gui.OptionsPanel;
+import au.net.genesis.mds.gui.tabs.SliderLine;
+import au.net.genesis.mds.gui.tabs.SliderLine.TYPE;
 import au.net.genesis.mds.gui.tabs.TabAssetSelector;
 import au.net.genesis.mds.gui.tabs.TabAssetSelector.SelectorListener;
 import au.net.genesis.mds.imageEditors.ParticleScene;
@@ -30,8 +31,7 @@ public class ParticleControl extends TabControl implements SelectorListener, Cha
 	private Rectangle particleSelection = new Rectangle(8,8);
 	private File particleFile = AssetFinder.getDungeonFile("specks.png");
 	private BufferedImage particleImage;
-	private JSlider particleScale, imageWidth, imageHeight;
-	private JLabel scaleLabel, widthLabel, heightLabel;
+	private SliderLine particleScale, imageWidth, imageHeight;
 	private JButton buttonAlchemy = MainGui.createButton("Alchemy pot", WellType.ALCHEMY.getFile());
 	private JButton buttonWaterWell = MainGui.createButton("Water well", WellType.MAGIC_WELL.getFile());
 	private JButton popSystem, flySystem, bubbleSystem, floatSystem;
@@ -42,17 +42,17 @@ public class ParticleControl extends TabControl implements SelectorListener, Cha
 		ps = new ParticleScene()
 			.setOutputFile(outputFile);
 		
-		imageWidth = new JSlider(16, 256, 96);
-		imageWidth.addChangeListener(this);
-		widthLabel = new JLabel(Integer.toString(imageWidth.getValue()) + " px");
+		imageWidth = new SliderLine("Image width", TYPE.PIXELS);
+		imageWidth.initTo(16, 256, 96);
+		imageWidth.getSlider().addChangeListener(this);
 		
-		imageHeight = new JSlider(16, 256, 96);
-		imageHeight.addChangeListener(this);
-		heightLabel = new JLabel(Integer.toString(imageHeight.getValue()) + " px");	
+		imageHeight = new SliderLine("Image height", TYPE.PIXELS);
+		imageHeight.initTo(16, 256, 96);
+		imageHeight.getSlider().addChangeListener(this);
 		
-		particleScale = new JSlider(5,200,60);
-		particleScale.addChangeListener(this);
-		scaleLabel = new JLabel(Integer.toString(particleScale.getValue()) + "%");
+		particleScale = new SliderLine("Particle scale", TYPE.PERCENT);
+		particleScale.initTo(5, 200, 60);
+		particleScale.getSlider().addChangeListener(this);
 		
 		assetSelector = new TabAssetSelector();
 		assetSelector.addSelectorListener(this);
@@ -81,35 +81,16 @@ public class ParticleControl extends TabControl implements SelectorListener, Cha
 	public void configureOptionTab(JPanel panel) {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
-		JPanel scale = new JPanel();
-		scale.setLayout(new BoxLayout(scale, BoxLayout.X_AXIS));
-		scale.add(new JLabel("Particle scale"));
-		scale.add(particleScale);
-		scale.add(scaleLabel);
-		panel.add(scale);
-		
-		JPanel width = new JPanel();
-		width.setLayout(new BoxLayout(width, BoxLayout.X_AXIS));
-		width.add(new JLabel("Well width"));
-		width.add(imageWidth);
-		width.add(widthLabel);
-		panel.add(width);
-		
-		JPanel height = new JPanel();
-		height.setLayout(new BoxLayout(height, BoxLayout.X_AXIS));
-		height.add(new JLabel("Well height"));
-		height.add(imageHeight);
-		height.add(heightLabel);
-		panel.add(height);
-		
+		panel.add(particleScale);
+		panel.add(imageWidth);
+		panel.add(imageHeight);
+				
 		JPanel wellType = new JPanel();
 		wellType.setLayout(new BoxLayout(wellType, BoxLayout.X_AXIS));
 		wellType.add(new JLabel("Well type:"));
 		wellType.add(buttonAlchemy);
 		wellType.add(buttonWaterWell);
 		panel.add(wellType);
-		
-		
 		
 		JPanel systemType = new JPanel();
 		systemType.setLayout(new FlowLayout());
@@ -182,7 +163,7 @@ public class ParticleControl extends TabControl implements SelectorListener, Cha
 	
 	private void getParticleImage() {
 		BufferedImage temp;
-		ps.getEmitter().setParticleScale((float)particleScale.getValue()/100F);
+		ps.getEmitter().setParticleScale((float)particleScale.getSlider().getValue()/100F);
 		particleImage = new BufferedImage(particleSelection.width,
 				particleSelection.height, BufferedImage.TYPE_INT_ARGB);
 		temp = AssetFinder.loadImage(particleFile);
@@ -218,17 +199,14 @@ public class ParticleControl extends TabControl implements SelectorListener, Cha
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		if (e.getSource() == particleScale) {
-			scaleLabel.setText(Integer.toString(particleScale.getValue()) + "%");
+		if (e.getSource() == particleScale.getSlider()) {
 			getParticleImage();
 			refreshPreview();
 			return;
 		}
 		
-		if (e.getSource() == imageWidth || e.getSource() == imageHeight) {
-			widthLabel.setText(Integer.toString(imageWidth.getValue()) + " px");
-			heightLabel.setText(Integer.toString(imageHeight.getValue()) + " px");
-			ps.setSceneSize(imageWidth.getValue(), imageHeight.getValue());
+		if (e.getSource() == imageWidth.getSlider() || e.getSource() == imageHeight.getSlider()) {
+			ps.setSceneSize(imageWidth.getSlider().getValue(), imageHeight.getSlider().getValue());
 			refreshPreview();
 			return;
 		}

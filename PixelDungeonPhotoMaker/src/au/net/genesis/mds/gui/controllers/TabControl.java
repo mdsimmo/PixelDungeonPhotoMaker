@@ -1,6 +1,6 @@
 package au.net.genesis.mds.gui.controllers;
 
-import java.awt.FlowLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -13,38 +13,38 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 import au.net.genesis.mds.PhotoMaker;
 import au.net.genesis.mds.assets.AssetFinder;
 import au.net.genesis.mds.gui.MainGui;
 import au.net.genesis.mds.gui.OptionsPanel;
 import au.net.genesis.mds.gui.PreviewPanel;
+import au.net.genesis.mds.gui.tabs.InputLine;
+import au.net.genesis.mds.gui.tabs.InputLine.Type;
 
 public abstract class TabControl implements ActionListener {
 	
-	protected JTextField usernameBox = new JTextField(12);
-	protected JTextField passwordBox = new JPasswordField(12);
-	protected JButton uploadButton = new JButton("Upload to wiki");
-	protected JButton saveButton = new JButton("Save to computer");
-	protected JTextField imagenameBox = new JTextField(12);
-	protected OptionsPanel optionsPanel;
+	private InputLine username, password, imageName;
+	private JButton uploadButton = new JButton("Upload to wiki");
+	private JButton saveButton = new JButton("Save to computer");
+	private JPanel configueredUpload;
+	private OptionsPanel optionsPanel;
 	protected JButton menuButon;
 	private PreviewPanel preview;
-	protected File outputFile = AssetFinder.getTempFile("save.png");
-	private JPanel configueredUpload;
+	private boolean loggedIn = false;
 	
 	public abstract void configureAssetTab(JPanel panel);
 	public abstract void configureOptionTab(JPanel panel);
 	public abstract File createImage();
 	public abstract String getName();
 	
+	public File getOutputFile() {
+		return AssetFinder.getTempFile("save.png");
+	}
+	
 	public File getImageFile() {
-		return outputFile;
+		return getOutputFile();
 	}
 	
 	public void setPreviewPanel(PreviewPanel preview) {
@@ -75,27 +75,19 @@ public abstract class TabControl implements ActionListener {
 	 */
 	public void configureUploadTab(JPanel panel) {
 		if (configueredUpload == null) {
-			panel.setLayout(new FlowLayout(SwingConstants.VERTICAL));
+			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 			
-			JPanel namePanel = new JPanel();
-			namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.X_AXIS));
-			namePanel.add(new JLabel("Image name"));
-			namePanel.add(imagenameBox);
-			panel.add(namePanel);
+			imageName = new InputLine("Image name");
+			panel.add(imageName);
 			
-			JPanel userPanel = new JPanel();
-			userPanel.setLayout(new BoxLayout(userPanel, BoxLayout.X_AXIS));
-			userPanel.add(new JLabel("Username"));
-			userPanel.add(usernameBox);
-			panel.add(userPanel);
+			username = new InputLine("Username");
+			panel.add(username);
 			
-			JPanel passwordPanel = new JPanel();
-			passwordPanel.setLayout(new BoxLayout(passwordPanel, BoxLayout.X_AXIS));
-			passwordPanel.add(new JLabel("Password"));
-			passwordPanel.add(passwordBox);
-			panel.add(passwordPanel);
+			password = new InputLine("Password", Type.PASSWORD);
+			panel.add(password);
 			
 			JPanel savePanel = new JPanel();
+			savePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 16));
 			savePanel.setLayout(new BoxLayout(savePanel, BoxLayout.Y_AXIS));
 			savePanel.add(uploadButton);
 			uploadButton.addActionListener(this);
@@ -119,10 +111,13 @@ public abstract class TabControl implements ActionListener {
 			// Upload an image
 			File save = getImageFile();
 			try {
-				MainGui.logger.log("Logging in to the wiki...");
-				PhotoMaker.wiki.login(usernameBox.getText(),passwordBox.getText());
+				if (!loggedIn) {
+					loggedIn = true;
+					MainGui.logger.log("Logging in to the wiki...");
+					PhotoMaker.wiki.login(username.getText(), password.getText());
+				}
 				MainGui.logger.log("Upploading image...");
-				PhotoMaker.wiki.upload(save, imagenameBox.getText(), "description", "added photo");
+				PhotoMaker.wiki.upload(save, imageName.getText(), "\n", " ");
 				MainGui.logger.log("Image successfully uploaded :D");
 			} catch (LoginException e1) {
 				MainGui.logger.log("Error with login!!!");

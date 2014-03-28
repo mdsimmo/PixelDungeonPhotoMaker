@@ -57,6 +57,8 @@ public class GraphicHelper {
 			double yscale) {
 		int width = (int) ((double) (image.getWidth()) * xscale);
 		int height = (int) ((double) (image.getHeight()) * yscale);
+		width = Math.max(1, width);
+		height = Math.max(1, height);
 		Image newImage = image.getScaledInstance(width, height,
 				Image.SCALE_FAST);
 		BufferedImage newBuffered = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);

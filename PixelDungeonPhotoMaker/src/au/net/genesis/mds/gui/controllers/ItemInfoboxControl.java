@@ -98,11 +98,12 @@ public class ItemInfoboxControl extends TabControl implements ActionListener, Se
 			refreshPreview();
 			return;
 		}
-		if (e.getSource() == shadowSlider || e.getSource() == shadowOpacitySlider) {
+		if (e.getSource() == shadowSlider.getSlider() || e.getSource() == shadowOpacitySlider.getSlider()) {
 			int size = shadowSlider.getSlider().getValue();
 			int opacity = shadowOpacitySlider.getSlider().getValue(); 
 			ic.configureShadow(size, ((float)opacity)/100F);
 			refreshPreview();
+			return;
 		}
 	}
 

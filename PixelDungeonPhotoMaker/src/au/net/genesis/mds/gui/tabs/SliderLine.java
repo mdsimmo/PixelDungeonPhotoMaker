@@ -52,7 +52,7 @@ public class SliderLine extends JPanel implements ChangeListener {
 	}
 	
 	public SliderLine initTo(int min, int max, int start) {
-		slider.setMaximum(min);
+		slider.setMinimum(min);
 		slider.setMaximum(max);
 		slider.setValue(start);
 		return this;

@@ -28,6 +28,7 @@ public abstract class TabControl implements ActionListener {
 	private InputLine username, password, imageName;
 	private JButton uploadButton = new JButton("Upload to wiki");
 	private JButton saveButton = new JButton("Save to computer");
+	private File previousSave;
 	private JPanel configueredUpload;
 	private OptionsPanel optionsPanel;
 	protected JButton menuButon;
@@ -109,28 +110,38 @@ public abstract class TabControl implements ActionListener {
 		}
 		if (e.getSource() == uploadButton) {
 			// Upload an image
-			File save = getImageFile();
-			try {
-				if (!loggedIn) {
-					loggedIn = true;
-					MainGui.logger.log("Logging in to the wiki...");
-					PhotoMaker.wiki.login(username.getText(), password.getText());
+			final File save = getImageFile();
+			Thread upload = new Thread() {
+				public void run() {
+					try {
+						if (!loggedIn) {
+							loggedIn = true;
+							MainGui.logger.log("Logging in to the wiki...");
+							PhotoMaker.wiki.login(username.getText(), password.getText());
+						}
+						MainGui.logger.log("Upploading image...");
+						PhotoMaker.wiki.upload(save, imageName.getText(), "\n", " ");
+						MainGui.logger.log("Image successfully uploaded :D");
+					} catch (LoginException e1) {
+						MainGui.logger.log("Error with login!!!");
+						e1.printStackTrace();
+						return;
+					} catch (IOException e1) {
+						MainGui.logger.log("Failed to upload image");
+						e1.printStackTrace();
+						return;
+					}
 				}
-				MainGui.logger.log("Upploading image...");
-				PhotoMaker.wiki.upload(save, imageName.getText(), "\n", " ");
-				MainGui.logger.log("Image successfully uploaded :D");
-			} catch (LoginException e1) {
-				MainGui.logger.log("Error with login!!!");
-			} catch (IOException e1) {
-				MainGui.logger.log("Failed to upload image");
-			}
+			};
+			upload.start();
 		}
 		if (e.getSource() == saveButton) {
-			JFileChooser fc = new JFileChooser();
-			if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-				File save = fc.getSelectedFile();
+			JFileChooser fc = new JFileChooser(previousSave);
+			int returned = fc.showSaveDialog(null);
+			if (returned == JFileChooser.APPROVE_OPTION) {
+				previousSave = fc.getSelectedFile();
 				try {
-					Files.copy(getImageFile().toPath(), save.toPath(), StandardCopyOption.REPLACE_EXISTING);
+					Files.copy(getImageFile().toPath(), previousSave.toPath(), StandardCopyOption.REPLACE_EXISTING);
 					MainGui.logger.log("Saved image");
 				} catch (IOException e1) {
 					e1.printStackTrace();

@@ -111,29 +111,24 @@ public abstract class TabControl implements ActionListener {
 		if (e.getSource() == uploadButton) {
 			// Upload an image
 			final File save = getImageFile();
-			Thread upload = new Thread() {
-				public void run() {
-					try {
-						if (!loggedIn) {
-							loggedIn = true;
-							MainGui.logger.log("Logging in to the wiki...");
-							PhotoMaker.wiki.login(username.getText(), password.getText());
-						}
-						MainGui.logger.log("Upploading image...");
-						PhotoMaker.wiki.upload(save, imageName.getText(), "\n", " ");
-						MainGui.logger.log("Image successfully uploaded :D");
-					} catch (LoginException e1) {
-						MainGui.logger.log("Error with login!!!");
-						e1.printStackTrace();
-						return;
-					} catch (IOException e1) {
-						MainGui.logger.log("Failed to upload image");
-						e1.printStackTrace();
-						return;
-					}
+			try {
+				if (!loggedIn) {
+					loggedIn = true;
+					MainGui.logger.log("Logging in to the wiki...");
+					PhotoMaker.wiki.login(username.getText(), password.getText());
 				}
-			};
-			upload.start();
+				MainGui.logger.log("Upploading image...");
+				PhotoMaker.wiki.upload(save, imageName.getText(), "\n", " ");
+				MainGui.logger.log("Image successfully uploaded :D");
+			} catch (LoginException e1) {
+				MainGui.logger.log("Error with login!!!");
+				e1.printStackTrace();
+				return;
+			} catch (IOException e1) {
+				MainGui.logger.log("Failed to upload image");
+				e1.printStackTrace();
+				return;
+			}
 		}
 		if (e.getSource() == saveButton) {
 			JFileChooser fc = new JFileChooser(previousSave);

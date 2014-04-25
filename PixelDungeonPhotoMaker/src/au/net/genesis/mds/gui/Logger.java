@@ -6,6 +6,7 @@ import java.awt.Point;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 
 public class Logger extends JPanel{
 
@@ -22,8 +23,16 @@ public class Logger extends JPanel{
 	
 	public void log(String string) {
 		// TODO this logger prints at strange times (threading issues?)
-		text.append("   " + string + "\n");
-		scrollPane.getViewport().setViewPosition(new Point(0,text.getHeight()));
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				text.append("   " + "Hello" + "\n");
+				scrollPane.getViewport().setViewPosition(new Point(0,text.getHeight()));
+				revalidate();
+				repaint();
+				
+			}
+		});
 	}
 	
 }

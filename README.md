@@ -2,7 +2,7 @@ Pixel Dungeon Photo Maker
 ======================
 
 <h3>Description</h3>
-This project is to create images for the <a href="http://pixeldungeon.wikia.com">Pixel Dungeon Wiki</a>. It currently can only create the infobox images and basic images.
+This project is to create images for the <a href="http://pixeldungeon.wikia.com">Pixel Dungeon Wiki</a>. It currently can create the infobox images, basic images and glowing echantments. There is still a lot that can be imroved, so if you're a developer, please add whatever you want.
 
 <h3>How to use it</h3>
 

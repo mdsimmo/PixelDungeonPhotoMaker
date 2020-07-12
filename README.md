@@ -9,13 +9,17 @@ It currently can create the infobox images, glowing enchantments, particle effec
 The app contains a simple command line passer which makes small jobs easy.
 Alternatively, you can use the project as a library and call the code.
 
-The examples below give the standard values used on the Wiki
-
 When using the command line passer, make sure to wrap everything in double quotes (`"`) and use single quotes (`'`) for paths. For example:
 
 <pre>
 java -jar PixelDungeonPhotoMaker.jar "{ load 'items.png' | crop x:0 y:0 w:16 h:16 | scale x:3 y:3 | save 'output.png' }"
 </pre>
+
+Template images can be found here: [PixelDungeonPhotoMaker/images](https://github.com/mdsimmo/PixelDungeonPhotoMaker/tree/master/images)
+
+Game assets can be found here: [PixelDungeon/assets](https://github.com/watabou/pixel-dungeon/tree/master/assets)
+
+The examples below give the standard values used on the Wiki
 
 ### Simple Image
 

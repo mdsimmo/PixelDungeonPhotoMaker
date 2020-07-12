@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.mdsimmo"
-version = "0.2.2"
+version = "0.2.3"
 
 repositories {
     mavenCentral()
@@ -37,9 +37,12 @@ application {
 
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class.java).configureEach {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+tasks.withType(JavaCompile::class.java) {
+    sourceCompatibility = "1.8"
+    targetCompatibility = "1.8"
 }
 
 tasks.withType(org.gradle.jvm.tasks.Jar::class.java).configureEach {

@@ -11,7 +11,15 @@ Alternatively, you can use the project as a library and call the code.
 
 The examples below give the standard values used on the Wiki
 
+When using the command line passer, make sure to wrap everything in double quotes (`"`) and use single quotes (`'`) for paths. For example:
+
+<pre>
+java -jar PixelDungeonPhotoMaker.jar "{ load 'items.png' | crop x:0 y:0 w:16 h:16 | scale x:3 y:3 | save 'output.png' }"
+</pre>
+
 ### Simple Image
+
+![Simple Image Example](https://github.com/mdsimmo/PixelDungeonPhotoMaker/raw/master/src/main/resources/example_simple.png)
 
     { load 'items.png' | crop x:0 y:0 w:16 h:16 | scale x:3 y:3 | save 'output.png' }
 
@@ -25,6 +33,8 @@ PipeLine(
 ```
 
 ### Infobox
+
+<img src="https://github.com/mdsimmo/PixelDungeonPhotoMaker/raw/master/src/main/resources/example_infobox.png" width="100" alt="Infobox Example" />
 
 Infoboxes are the same for both enemies and items
    
@@ -45,6 +55,8 @@ PipeLine(
 
 ### Animated Enemy
 
+![Animated Enemy Example](https://github.com/mdsimmo/PixelDungeonPhotoMaker/raw/master/src/main/resources/example_enemy.gif)
+
 Note: There is currently no support for frames of different length 
 
     { load 'bat.png' | spritesheet w:15 h:16 frames:1,2,3,2,1 | scale x:3 y:3 | save 'bat.gif' msbtwframes:100 }
@@ -60,6 +72,8 @@ PipeLine(
 
 ### Glowing Item
 
+![Glowing Item Example](https://github.com/mdsimmo/PixelDungeonPhotoMaker/raw/master/src/main/resources/example_glow.gif)
+
     { load 'items.png' | spritesheet w:16 h:16 frames:2 | scale x:3 y:3 | glow r:255 g:10 b:20 length:30 | filltransparent r:71 g:70 b:70 | save 'glow.gif' msbtwframes:40 }
     
 ```kotlin
@@ -74,6 +88,8 @@ PipeLine(
 ```
 
 ### Particles
+
+![Particles Example](https://github.com/mdsimmo/PixelDungeonPhotoMaker/raw/master/src/main/resources/example_particles.gif)
 
         { load 'well.png' | scale x:3 y:3 | particles type:popup framesperspawn:10 length:100 scale:3 texture:{ load 'specks.png' | spritesheet w:7 h:7 frames:3 } | filltransparent r:71 g:70 b:70 | save 'part.gif' msbtwframes:40 } 
 

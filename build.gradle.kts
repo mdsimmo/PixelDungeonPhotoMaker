@@ -6,8 +6,8 @@ plugins {
     application
 }
 
-group = "io.github.mdsimmo"
-version = "0.2.1"
+group = "com.mdsimmo"
+version = "0.2.2"
 
 repositories {
     mavenCentral()
@@ -32,7 +32,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClassName = "com.mdsimmo.PhotoMaker"
+    mainClassName = "com.mdsimmo.cmd.MainKt"
 }
 
 
@@ -40,4 +40,13 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class.java).conf
     kotlinOptions {
         jvmTarget = "1.8"
     }
+}
+
+tasks.withType(org.gradle.jvm.tasks.Jar::class.java).configureEach {
+    manifest {
+        attributes(Pair("Main-Class", "com.mdsimmo.cmd.MainKt"))
+    }
+    from(configurations.compileClasspath.get().map {
+        if (it.isDirectory) it else zipTree(it)
+    })
 }

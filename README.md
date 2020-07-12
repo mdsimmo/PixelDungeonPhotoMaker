@@ -13,7 +13,7 @@ The examples below give the standard values used on the Wiki
 
 ### Simple Image
 
-    { load "items.png | crop x:0 y:0 w:16 h:16 | scale x:3 y:3 | save "output.png" }
+    { load 'items.png' | crop x:0 y:0 w:16 h:16 | scale x:3 y:3 | save 'output.png' }
 
 ```kotlin
 val itemSheet: BufferedImage = ... // load items.png
@@ -28,7 +28,7 @@ PipeLine(
 
 Infoboxes are the same for both enemies and items
    
-    { load "items.png" | crop x:0 y:0 w:16 h:16 | scale x:14 y:14 | trim | shadow: r:12 a:0.8 x:0 y:0 | backimage {load "infoboxcity.png"} | save "output.png" }
+    { load 'items.png' | crop x:0 y:0 w:16 h:16 | scale x:14 y:14 | trim | shadow r:12 a:0.8 x:0 y:0 | backimage {load 'infoboxcity.png'} | save 'output.png' }
     
 ```kotlin
 val itemSheet: BufferedImage = ... // load items.png
@@ -47,7 +47,7 @@ PipeLine(
 
 Note: There is currently no support for frames of different length 
 
-    { load "bat.png" | spritesheet w:15 h:16 frames:1,2,3,2,1 | scale x:3 y:3 | save "bat.gif" msbtwframes:100 }
+    { load 'bat.png' | spritesheet w:15 h:16 frames:1,2,3,2,1 | scale x:3 y:3 | save 'bat.gif' msbtwframes:100 }
 
 ```kotlin
 val itemSheet: BufferedImage = ... // load bat.png
@@ -60,7 +60,7 @@ PipeLine(
 
 ### Glowing Item
 
-    { load "items.png" | spritesheet w:16 h:16 frames:2 | scale x:3 y:3 | glow r:255 g:10 b:20 length:30 | save "glow.gif" msbtwframes:40 }
+    { load 'items.png' | spritesheet w:16 h:16 frames:2 | scale x:3 y:3 | glow r:255 g:10 b:20 length:30 | filltransparent r:71 g:70 b:70 | save 'glow.gif' msbtwframes:40 }
     
 ```kotlin
 val itemSheet: BufferedImage = ... // load items.png
@@ -68,13 +68,14 @@ PipeLine(
         SpriteSheet(16, 16, listOf(2)),
         Scale(3.0, 3.0),
         Glow(Color(255, 10, 20), 30),
+        FillTransparent(Color(71, 70, 70)),
         Save(File("glow.gif"), msBtwFrames = 40)
 ).process(itemSheet)
 ```
 
 ### Particles
 
-    { load "well.png" | scale x:3 y:3 | particles type:popup, framesperspawn:10 length:100 texture:{ load "specks.png" | spritesheet w:7 h:7 frames:4 } | filltransparent r:71 g:70 b:70 | save "well.png" msbtwframes:40 }
+        { load 'well.png' | scale x:3 y:3 | particles type:popup framesperspawn:10 length:100 scale:3 texture:{ load 'specks.png' | spritesheet w:7 h:7 frames:3 } | filltransparent r:71 g:70 b:70 | save 'part.gif' msbtwframes:40 } 
 
 ```kotlin
 val well: BufferedImage = ... // load well.png

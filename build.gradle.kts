@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "io.github.mdsimmo"
-version = "0.4.12"
+version = "0.2.1"
 
 repositories {
     mavenCentral()

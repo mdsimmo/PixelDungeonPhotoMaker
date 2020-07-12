@@ -4,9 +4,7 @@
 
 package com.jhlabs.image;
 
-import java.awt.AlphaComposite;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BandCombineOp;
 import java.awt.image.BufferedImage;

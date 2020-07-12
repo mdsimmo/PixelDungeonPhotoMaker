@@ -4,8 +4,8 @@
 
 package com.jhlabs.image;
 
-import java.util.*;
-import java.awt.Color;
+import java.awt.*;
+import java.util.Random;
 
 /**
  * Some more useful math functions for image processing.

@@ -146,7 +146,6 @@ Warning: Do not use two 'animated' commands together
 |       | length  |         | How many frames before the particles repeat
 |       | texture |         | the partcle image
 |       | scale   |         | how much to scale the particle effect by
-|       | 
 | save  |         |         | Writes the image to disk
 |       | _arg 1_ |         | File path to write to
 |       | msbtwframes |  0  | Gifs only: number of milliseconds between frames

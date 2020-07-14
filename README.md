@@ -111,3 +111,57 @@ PipeLine(
         Save(File("well.gif"), msBtwFrames = 40)
 ).process(well)
 ```
+
+### All Processes
+
+Warning: Do not use two 'animated' commands together 
+
+| Name  |   Arg   | Default | Description
+| ------|---------|---------|------------
+| backfill |      |         | Puts a solid background color
+|       | r       |         | Color red
+|       | g       |         | Color green
+|       | b       |         | Color blue
+| backimage |     |         | Puts an image behind. Images are centered
+|       | _arg 1_ |         | The image to use
+| crop  |         |         | crops a part of the image out
+|       | x       |         | left most pixel
+|       | y       |         | top most pixel
+|       | w       |         | crop width
+|       | h       |         | crop height
+| filltransparent ||        | Same as backfill but only applies to semi-transparent pixels 
+|       | r       |         | The backing color red
+|       | g       |         | The backing color green
+|       | b       |         | The backing color blue
+| glow  |         |         | Animates with a fading glow cycle
+|       | r       |         | Glow red
+|       | g       |         | Glow green
+|       | b       |         | Glow blue
+|       | length  |         | Number of frames for a complete glow cycle
+| load  |         |         | Loads an image from disk
+|       | _arg 1_ |         | File path to an image to load
+| particles |     |         | Animates with a particle effect
+|       | type    |         | The particle type (`bubble`, `floatup`, `flyaway`, `popup`)
+|       | framesperspawn |  | How many frames between each particle spawning
+|       | length  |         | How many frames before the particles repeat
+| save  |         |         | Writes the image to disk
+|       | _arg 1_ |         | File path to write to
+|       | msbtwframes |  0  | Gifs only: number of milliseconds between frames
+|       | looped  | true    | Gifs only: should the animation repeat (default: true)
+| scale |         |         | Scales the image by an amount
+|       | x       |         | x scale
+|       | y       |         | y scale
+| shadow |        |         | Applies a drop shadow
+|       | r       |         | Shadow fade radius (px)
+|       | a       |         | Shadow alpha
+|       | x       |         | Shadow x offset
+|       | y       |         | Shadow y offset
+| spritesheet |   |         | Crops an image/animation from a spritesheet
+|       | w       |         | The width of the crop
+|       | h       |         | The height of the crop
+|       | xoffset | 0       | Where to start on the image (px)
+|       | yoffset | 0       | Where to start on the image (px)
+|       | xspace  | 0       | Spacing between frames (px)
+|       | yspace  | 0       | Spacing between frames (px)
+|       | frames  |         | frame numbers to choose (comma seperated)
+| trim  |         |         | Removes all whitespace around the image
